@@ -13,6 +13,9 @@ export class BrickDetailsComponent implements OnInit {
   brick: any;  // Ensure it's ready to receive data
   mintedBricks: string[] = [];
   isMinted: boolean = false;
+  attributes: any[] = [];
+  loadingAttributes: boolean = false;
+  attributesError: string | null = null;
 
   constructor(public modalRef: BsModalRef, private modalService: BsModalService, private walletService: WalletService) {} // Inject BsModalService
 
@@ -31,6 +34,25 @@ export class BrickDetailsComponent implements OnInit {
         console.error('Failed to fetch minted bricks', err);
       }
     });
+    // Fetch NFT attributes from metadataUri
+    this.fetchAttributes();
+  }
+
+  async fetchAttributes() {
+    this.loadingAttributes = true;
+    this.attributesError = null;
+    this.attributes = [];
+    if (this.brick && this.brick.metadataUri) {
+      try {
+        const res = await fetch(this.brick.metadataUri);
+        if (!res.ok) throw new Error('Failed to fetch metadata');
+        const metadata = await res.json();
+        this.attributes = Array.isArray(metadata.attributes) ? metadata.attributes : [];
+      } catch (err: any) {
+        this.attributesError = err.message || 'Failed to load attributes';
+      }
+    }
+    this.loadingAttributes = false;
   }
 
   openShareModal(): void {
