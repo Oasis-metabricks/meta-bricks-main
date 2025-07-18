@@ -27,15 +27,22 @@
       
       <div class="third-box">
         <div class="list-data-container">
-          <div class="list-data">
-            <p>Jun '24</p>
-            <span>Minted by 0x583y7t.. for 0.4 SOL</span>
-          </div>
-  
-          <div class="list-data">
-            <p>Jun '24</p>
-            <span>Listed by 0x583y7t.. for 0.4 SOL</span>
-          </div>
+          <ng-container *ngIf="loadingAttributes">Loading attributes...</ng-container>
+          <ng-container *ngIf="attributesError">Error: {{attributesError}}</ng-container>
+          <ng-container *ngIf="!loadingAttributes && !attributesError && attributes.length">
+            <div class="list-data" *ngFor="let attr of attributes">
+              <p>{{attr.trait_type || attr.type || 'Attribute'}}</p>
+              <span>
+                <ng-container *ngIf="(attr.trait_type === 'Rarity' || attr.trait_type === 'Type' || attr.type === 'Rarity' || attr.type === 'Type') && !isMinted">??????</ng-container>
+                <ng-container *ngIf="!(attr.trait_type === 'Rarity' || attr.trait_type === 'Type' || attr.type === 'Rarity' || attr.type === 'Type') || isMinted">{{attr.value}}</ng-container>
+              </span>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!loadingAttributes && !attributesError && !attributes.length">
+            <div class="list-data">
+              <p>No attributes found.</p>
+            </div>
+          </ng-container>
         </div>
 
         <p class="link">Hash↗</p>

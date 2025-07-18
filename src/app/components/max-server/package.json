@@ -11,5 +11,8 @@
     "express": "^4.17.1",
     "node-fetch": "^2.7.0",
     "stripe": "^18.3.0"
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
