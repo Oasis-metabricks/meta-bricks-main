@@ -1,0 +1,22 @@
+{
+  "name": "Regular Brick #10",
+  "symbol": "MBRK",
+  "description": "A Regular Brick from the Metabricks collection.",
+  "seller_fee_basis_points": 500,
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeig4zh7265n7s4i5dxmq7zhcscdzg5cybd4jdwe2kloe4wmvnjvfja/regular_9.png",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Regular"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.pinata.cloud/ipfs/bafybeig4zh7265n7s4i5dxmq7zhcscdzg5cybd4jdwe2kloe4wmvnjvfja/regular_9.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image"
+  }
+}

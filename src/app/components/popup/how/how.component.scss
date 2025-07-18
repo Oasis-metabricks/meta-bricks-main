@@ -1,0 +1,35 @@
+.modal-body {
+    .custom-modal-content {
+        .section-heading {
+            display: flex;
+            align-items: center;
+            grid-gap: 6px;
+            margin: 0 0 20px;
+        }
+        h2 {
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            span {
+                font-size: 16px;
+            }
+        }
+        .list-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            .single-list {
+                padding: 20px;
+                display: grid;
+                grid-gap: 10px;
+                border: 1px solid #B0FFEC;
+                p {
+                    font-family: 'MEK' !important;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}

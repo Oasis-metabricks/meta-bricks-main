@@ -1,0 +1,13 @@
+h2 {
+    text-align: center;
+    margin: 0 0 60px;
+}
+.buttons-list {
+    display: flex;
+    justify-content: space-between;
+    button.button {
+        width: 94px;
+        background-color: #B0FFEC;
+        color: #343BE6 !important;
+    }
+}

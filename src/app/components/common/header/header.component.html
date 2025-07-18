@@ -1,0 +1,13 @@
+<!-- src/app/components/common/header/header.component.html -->
+<header>
+    <div class="logo" style="cursor:pointer;" routerLink="/">
+        <img src="/assets/images/logo.png" alt="">
+        <h1>METABRiCKS</h1>
+    </div>
+    <div id="target-element" class="right-section buttons-list">
+        <button class="button" routerLink="gallery">Gallery</button>
+       <button class="button" (click)="connectWallet()">
+  {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
+</button>
+    </div>
+</header>

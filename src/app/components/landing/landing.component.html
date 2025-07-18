@@ -1,0 +1,22 @@
+<div class="middle-container">
+    <div class="middle-content">
+        <div class="bricks-container">
+            <!-- Adding the offset conditionally based on the brick's properties -->
+            <div *ngFor="let brick of allBricks"
+                 class="single-brick"
+                 [class.offset]="brick.offset"
+                 [class.minted-brick]="!brick.metadataUri || isMinted(brick)"
+                 [class.exploding]="brick.exploding"
+                 (click)="brick.metadataUri && !isMinted(brick) ? openBrickModal(brick) : null">
+                <div class="brick-inner">
+                    <ng-container *ngIf="brick.metadataUri && !isMinted(brick)">
+                        {{ brick.seriesNumber }}
+                    </ng-container>
+                    <div class="particles" *ngIf="brick.exploding">
+                        <div class="particle" *ngFor="let p of [0,1,2,3,4,5,6,7]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
