@@ -1,18 +1,15 @@
-<div class="modal-body">
+<div class="modal-body mint-modal">
     <div class="custom-modal-header">
-        <div class="back-btn">< Back</div>
-
+        <div class="back-btn" (click)="goBack()" style="position: absolute; top: 24px; left: 24px; cursor: pointer; font-size: 1.2rem; z-index: 10;">&lt; Back</div>
         <p>MINT</p>
     </div>
-    
     <div class="custom-modal-content">
-        <h2>Monster. You sure you want to destroy this innocent brick?</h2>
+        <h2 class="main-question">Monster. You sure you want to destroy this innocent brick?</h2>
         <div class="payment-method-choice">
             <button class="button" [class.selected]="selectedPayment === 'phantom'" (click)="selectPayment('phantom')">Pay with Phantom</button>
             <button class="button" [class.selected]="selectedPayment === 'stripe'" (click)="selectPayment('stripe')">Pay with Stripe</button>
         </div>
     </div>
-
     <div class="buttons-list">
         <button class="button" *ngIf="selectedPayment === 'phantom'" (click)="mintBrick()">Mint with Phantom</button>
         <button class="button" *ngIf="selectedPayment === 'stripe'" (click)="mintWithStripe()">Mint with Stripe</button>

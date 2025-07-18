@@ -5,6 +5,7 @@ import { WalletService } from '../../../services/wallet.service'; // Ensure the 
 import { BrickEventsService } from '../../../services/brick-events.service';
 import { Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import { loadStripe } from '@stripe/stripe-js';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 declare let window: any;
 
@@ -21,7 +22,15 @@ export class MintComponent {
   brick: any;
   selectedPayment: 'phantom' | 'stripe' | null = null;
 
-  constructor(private walletService: WalletService, private brickEvents: BrickEventsService) {}
+  constructor(
+    private walletService: WalletService,
+    private brickEvents: BrickEventsService,
+    public modalRef: BsModalRef
+  ) {}
+
+  goBack() {
+    this.modalRef.hide();
+  }
 
   selectPayment(method: 'phantom' | 'stripe') {
     this.selectedPayment = method;

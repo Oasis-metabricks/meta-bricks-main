@@ -1,3 +1,65 @@
+.center-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-body.center-modal {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 70vh !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.custom-modal-content.center-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.main-question {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 40px 0 32px 0;
+}
+
+.payment-method-choice {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 32px !important;
+  margin-bottom: 40px !important;
+  width: 100%;
+}
+.payment-method-choice .button {
+  min-width: 180px;
+  min-height: 60px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: box-shadow 0.2s;
+}
+.payment-method-choice .button.selected {
+  box-shadow: 0 0 0 3px #343BE6;
+  background: #B0FFEC;
+  color: #343BE6 !important;
+}
+
 h2 {
     text-align: center;
     margin: 0 0 60px;
@@ -10,4 +72,52 @@ h2 {
         background-color: #B0FFEC;
         color: #343BE6 !important;
     }
+}
+
+.mint-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  width: 100%;
+  padding: 0;
+
+  .custom-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .main-question {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 40px 0 32px 0;
+  }
+
+  .payment-method-choice {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+  .payment-method-choice .button {
+    min-width: 180px;
+    min-height: 60px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: box-shadow 0.2s;
+  }
+  .payment-method-choice .button.selected {
+    box-shadow: 0 0 0 3px #343BE6;
+    background: #B0FFEC;
+    color: #343BE6 !important;
+  }
 }
