@@ -1,0 +1,21 @@
+<div class="modal-body">
+    <div class="custom-modal-header">
+        <div class="back-btn">< Back</div>
+
+        <p>MINT</p>
+    </div>
+    
+    <div class="custom-modal-content">
+        <h2>Monster. You sure you want to destroy this innocent brick?</h2>
+        <div class="payment-method-choice">
+            <button class="button" [class.selected]="selectedPayment === 'phantom'" (click)="selectPayment('phantom')">Pay with Phantom</button>
+            <button class="button" [class.selected]="selectedPayment === 'stripe'" (click)="selectPayment('stripe')">Pay with Stripe</button>
+        </div>
+    </div>
+
+    <div class="buttons-list">
+        <button class="button" *ngIf="selectedPayment === 'phantom'" (click)="mintBrick()">Mint with Phantom</button>
+        <button class="button" *ngIf="selectedPayment === 'stripe'" (click)="mintWithStripe()">Mint with Stripe</button>
+        <button class="button">No</button>
+    </div>
+</div>

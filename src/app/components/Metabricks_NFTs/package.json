@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@metaplex-foundation/js": "^0.20.1",
+    "@metaplex-foundation/mpl-token-metadata": "^1.2.5",
+    "@solana/spl-token": "^0.2.0",
+    "@solana/web3.js": "^1.95.1",
+    "axios": "^1.7.2",
+    "bs58": "^6.0.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^2.7.0"
+  }
+}

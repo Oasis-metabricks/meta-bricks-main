@@ -1,0 +1,29 @@
+<div class="middle-container gallery-container">
+    <div class="middle-content">
+        <div class="section-header">
+            <h2>Bricks Gallery</h2>
+
+            <div class="right-section">
+                <p>Sold <span>Yes</span></p>
+                <p>Sort by <span>Price ↑</span></p>
+            </div>
+        </div>
+
+        <div class="section-list">
+            <div class="single-section"
+                 *ngFor="let brick of allBricks; trackBy: trackByBrick"
+                 [@brickAnim]>
+                <img [src]="brick.image || '/assets/images/sample-brick.png'" alt="Brick Image">
+                <h2>{{ brick.name }}</h2>
+                <div class="have-top-border">
+                    <p>Series Number</p>
+                    <h3>{{ brick.seriesNumber || brick.id }}</h3>
+                </div>
+                <div class="have-top-border">
+                    <p>Mint Price</p>
+                    <h3>{{ brick.mintPrice || 'N/A' }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

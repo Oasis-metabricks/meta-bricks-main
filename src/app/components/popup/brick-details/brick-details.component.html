@@ -1,0 +1,54 @@
+<div class="modal-body">
+    <div class="custom-modal-content">
+      <div class="first-box">
+        <img src="/assets/images/simple-brick-large.png" alt="Brick Image">
+      </div>
+
+      <div class="second-box">
+        <h2>Metabrick Official Supply</h2>
+
+        <div class="list-data-container">
+          <div class="list-data">
+            <p>Number</p>
+            <span>{{brick.brickNumber}}</span>
+          </div>
+  
+          <div class="list-data">
+            <p>Mint Price</p>
+            <span>{{brick.mintPrice}}</span>
+          </div>
+  
+          <div class="list-data">
+            <p>Position</p>
+            <span>{{brick.position}}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="third-box">
+        <div class="list-data-container">
+          <div class="list-data">
+            <p>Jun '24</p>
+            <span>Minted by 0x583y7t.. for 0.4 SOL</span>
+          </div>
+  
+          <div class="list-data">
+            <p>Jun '24</p>
+            <span>Listed by 0x583y7t.. for 0.4 SOL</span>
+          </div>
+        </div>
+
+        <p class="link">Hash↗</p>
+
+        <button class="button" (click)="openShareModal()">SHARE↗</button>
+
+        <ng-container *ngIf="brick.metadataUri; else notAvailable">
+          <button class="button light-color" (click)="openMintModal()" [disabled]="isMinted" *ngIf="!isMinted">MINT</button>
+          <div *ngIf="isMinted" style="color: #c00; font-weight: bold; margin-top: 10px;">This brick has already been minted</div>
+        </ng-container>
+        <ng-template #notAvailable>
+          <div style="color: #c00; font-weight: bold; margin-top: 10px;">This brick is not available for minting yet</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,374 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "./node_modules/bootstrap/scss/bootstrap";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Mek Sans Regular' !important;
+    color: #B0FFEC !important;
+}
+h6, h5, h4, h3, h2, h1, p {
+    margin: 0;
+}
+body {
+    background: #343BE6;
+}
+a {
+    text-decoration: none;
+    cursor: pointer;
+}
+a.button, button.button {
+    background-color: #161A83;
+    padding: 0 30px;
+    height: 48px;
+    font-family: 'Mek' !important;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    cursor: pointer;
+}
+.buttons-list {
+    display: flex;
+    grid-gap: 8px;
+    align-items: center;
+}
+.main-container {
+    position: relative;
+    height: 100vh;
+    padding: 0 35px;
+
+    header {
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .logo {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            grid-gap: 5px;
+        }
+    }
+    .middle-container {
+        overflow-y: auto;
+        height: calc(100vh - 144px);
+
+        .middle-content {
+            .section-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 35px;
+                border: 1px solid #679BFF;
+                h2 {
+                    font-size: 32px;
+                    font-style: normal;
+                    font-weight: 400;
+                    color: #fff !important;
+                }
+                .right-section {
+                    display: flex;
+                    align-items: center;
+                    grid-gap: 20px;
+                    p {
+                        font-size: 24px;
+                        color: #679BFF !important;
+                        span {
+                            color: #fff !important;
+                            font-size: inherit;
+                        }
+                    }
+                }
+            }
+            .section-list {
+                border-left: 1px solid #679BFF;
+                border-right: 1px solid #679BFF;
+                border-bottom: 1px solid #679BFF;
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                :nth-child(5n) {
+                    border-right: 0 !important;
+                }
+                .single-section {
+                    padding: 20px;
+                    border-right: 1px solid #679BFF;
+                    border-bottom: 1px solid #679BFF;
+                    display: grid;
+                    grid-gap: 15px;
+
+                    h2 {
+                        color: #fff !important;
+                        font-size: 32px;
+                        font-style: normal;
+                        font-weight: 400;
+                    }
+                    .have-top-border {
+                        padding-top: 3px;
+                        border-top: 1px solid #161A83;
+                        p, h3 {
+                            font-family: 'Mek' !important;
+                        }
+                        p {
+                            font-size: 24px;
+                            font-style: normal;
+                            font-weight: 400;
+                        }
+                        h3 {
+                            font-size: 32px;
+                            font-style: normal;
+                            font-weight: 400;
+                            color: #fff !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.gallery-container {
+            position: relative;
+            top: 36px;
+            height: calc(100vh - 180px);
+        }
+    }
+    .bricks-container {
+        display: grid;
+        grid-template-columns: repeat(18, 66px); /* Creates 18 columns, each brick 66px wide */
+        grid-auto-rows: 25x; /* Height of each row */
+        justify-content: center;
+        gap: 3px; /* Space between bricks */
+    }
+    
+    .single-brick {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 62px; /* Width of each brick */
+        height: 23px; /* Height of each brick */
+        border-radius: 3px;
+        border: 1px solid #343BE6;
+        position: relative;
+        overflow: hidden; /* Ensures no overflow of content within bricks */
+    
+        &:hover {
+            border-color: #B0FFEC; /* Change border color on hover to indicate interaction */
+        }
+    }
+
+    .offset {
+        margin-left: 32px; // Offset by approximately half the brick's width
+      }
+    
+    .brick-inner {
+        width: 100%; /* Ensure it fills the brick */
+        height: 100%; /* Ensure it fills the brick */
+        background-color: #B0FFEC;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #343BE6; /* Text color for any text inside brick */
+    }
+    
+    .empty-brick .brick-inner {
+        background-color: #343BE6; /* Different background for empty bricks */
+    }
+
+    // .bricks-container {
+    //     display: flex;
+    //     flex-wrap: wrap;
+    //     justify-content: center;
+    //     width: fit-content;
+    //     margin: 0 auto;
+    // }
+    
+    // .single-brick {
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     width: 66px;
+    //     height: 28px;
+    //     border-radius: 3px;
+    //     background: #343BE6;
+    //     position: relative;
+    //     margin: 3px;
+    // }
+    
+    // .brick-inner {
+    //     width: 60px;
+    //     height: 22px;
+    //     border-radius: 3px;
+    //     background: #B0FFEC;
+    //     position: relative;
+    // }
+    
+    // .single-brick:nth-child(odd) {
+    //     margin-top: 14px; /* Adjust to position the bricks correctly */
+    // }    
+
+    footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(0deg, #343BE6 50%, rgba(52, 59, 230, 0.00) 100%);
+        position: absolute;
+        bottom: 0;
+        left: 35px;
+        right: 35px;
+        padding: 47px 0 15px;
+
+        .right-section {
+            display: flex;
+            grid-gap: 25px;
+            p {
+                font-size: 24px;
+                font-family: 'Mek' !important;
+            }
+        }
+    }
+}
+
+
+@font-face {
+    font-family: 'Mek Sans Regular';
+    src: url(/assets/fonts/MEKSans-Regular.woff2);
+}
+@font-face {
+    font-family: 'Mek';
+    src: url(/assets/fonts/MEK-Mono.woff2);
+}
+
+
+/* Custom Modal Styling */
+.modal-dialog {
+    width: 612px;
+    max-width: 612px;
+    .modal-content {
+        background-color: #343BE6;
+        .custom-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 0 30px;
+            .back-btn {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                font-family: 'MEK' !important;
+                font-size: 32px;
+                font-style: normal;
+                font-weight: 400;
+            }
+            p {
+                color: #679BFF !important;
+                font-family: 'MEK' !important;
+                font-size: 24px;
+                font-style: normal;
+                font-weight: 400;
+            }
+        }
+        .modal-body {
+            padding: 35px 50px;
+        }
+    }
+}
+.modal-dialog-slide-up {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    .modal-content {
+        border-radius: 0;
+        .modal-body {
+            // height: 308px;
+        }
+
+        .custom-modal-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 30px;
+            align-items: center;
+            // height: 250px;
+
+            .first-box {
+                border: 1px solid #679BFF;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+            }
+            .second-box {
+                h2 {
+                    font-size: 32px;
+                    font-style: normal;
+                    font-weight: 400;
+                    margin: 0 0 46px;
+                }
+                .list-data-container {
+                    display: grid;
+                    grid-gap: 15px;
+                }
+                .list-data {
+                    border-top: 1px solid #679BFF;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    p, span {
+                        font-size: 24px;
+                        font-style: normal;
+                        font-weight: 400;
+                    }
+                    span {
+                        color: #fff !important;
+                        font-family: "MEK" !important;
+                        font-size: 32px;
+                    }
+                }
+            }
+            .third-box {
+                display: grid;
+                grid-gap: 10px;
+                .list-data {
+                    padding: 6px 0;
+                    border-bottom: 1px solid #679BFF;
+                    display: flex;
+                    grid-gap: 10px;
+                    align-items: center;
+                    p, span {
+                        font-size: 24px;
+                        font-style: normal;
+                        font-weight: 400;
+                        color: #679BFF !important;
+                    }
+                    span {
+                        color: #B0FFEC !important;
+                        font-family: "MEK" !important;
+                        font-size: 32px;
+                    }
+                }
+                p.link {
+                    display: flex;
+                    justify-content: flex-end;
+                    color: #161A83 !important;
+                    font-size: 24px;
+                    font-style: normal;
+                    font-weight: 400;
+                }
+                button.button {
+                    width: 100%;
+                    &.light-color {
+                        color: #343BE6 !important;
+                        background-color: #B0FFEC;
+                    }
+                }
+            }
+        }
+    }
+}

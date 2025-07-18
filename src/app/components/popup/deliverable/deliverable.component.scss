@@ -1,0 +1,19 @@
+.modal-body {
+    .custom-modal-content {
+        display: grid;
+        grid-gap: 50px;
+        align-items: center;
+        grid-template-columns: 1fr 1fr;
+
+        h2 {
+            font-size: 40px;
+            font-style: normal;
+            font-weight: 400;
+        }
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            grid-gap: 20px;
+        }
+    }
+}
