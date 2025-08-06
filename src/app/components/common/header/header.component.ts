@@ -18,6 +18,15 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Check for mobile wallet return flow first
+    const mobileWalletInfo = this.walletService.handleMobileWalletReturn();
+    if (mobileWalletInfo) {
+      this.walletAddress = mobileWalletInfo;
+      this.cdr.detectChanges();
+      return;
+    }
+    
+    // Check for existing wallet connection
     this.walletService.checkWalletConnected().then((publicKey: any) => {
       if (publicKey) {
         this.walletAddress = publicKey.toString();
@@ -29,7 +38,14 @@ export class HeaderComponent implements OnInit {
   connectWallet() {
     this.ngZone.run(() => {
       this.walletService.connectWallet().then(res => {
-        // Add this logging for debugging
+        // Check if this is a mobile connection
+        if (res && res.mobile) {
+          console.log('Mobile wallet connection initiated');
+          alert('Opening Phantom app... Please return to this page after connecting your wallet.');
+          return;
+        }
+        
+        // Desktop flow
         console.log('Phantom state after connect:', window.solana);
 
         if (window.solana && window.solana.isConnected && window.solana.publicKey) {

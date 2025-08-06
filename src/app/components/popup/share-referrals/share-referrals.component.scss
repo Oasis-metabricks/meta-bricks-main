@@ -60,3 +60,92 @@
         font-weight: 400;
     }
 }
+
+/* Responsive Design for Share Referrals Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        .custom-modal-content {
+            grid-template-columns: 1fr !important;
+            grid-gap: 30px !important;
+            
+            h2 {
+                font-size: 28px !important;
+                text-align: center !important;
+            }
+            
+            .right-section {
+                grid-gap: 15px !important;
+            }
+        }
+        
+        .social-icons-list {
+            margin: 20px 0 !important;
+            padding: 15px !important;
+            grid-gap: 30px !important;
+            
+            .single-social {
+                .icon {
+                    width: 40px !important;
+                    height: 40px !important;
+                }
+            }
+        }
+        
+        .ref-link {
+            height: 35px !important;
+            
+            p {
+                font-size: 24px !important;
+            }
+        }
+        
+        p.bottom-text {
+            margin: 20px 0 0 !important;
+            font-size: 20px !important;
+            text-align: center !important;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-body {
+        .custom-modal-content {
+            grid-gap: 20px !important;
+            
+            h2 {
+                font-size: 24px !important;
+            }
+            
+            .right-section {
+                grid-gap: 10px !important;
+            }
+        }
+        
+        .social-icons-list {
+            margin: 15px 0 !important;
+            padding: 10px !important;
+            grid-gap: 20px !important;
+            flex-wrap: wrap !important;
+            
+            .single-social {
+                .icon {
+                    width: 35px !important;
+                    height: 35px !important;
+                }
+            }
+        }
+        
+        .ref-link {
+            height: 30px !important;
+            
+            p {
+                font-size: 20px !important;
+            }
+        }
+        
+        p.bottom-text {
+            margin: 15px 0 0 !important;
+            font-size: 18px !important;
+        }
+    }
+}

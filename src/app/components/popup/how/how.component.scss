@@ -1,4 +1,23 @@
 .modal-body {
+    .custom-modal-header {
+        .back-btn {
+            cursor: pointer !important;
+            user-select: none !important;
+            transition: opacity 0.2s ease !important;
+            position: relative !important;
+            z-index: 10 !important;
+            pointer-events: auto !important;
+            
+            &:hover {
+                opacity: 0.8 !important;
+            }
+            
+            &:active {
+                opacity: 0.6 !important;
+            }
+        }
+    }
+    
     .custom-modal-content {
         .section-heading {
             display: flex;
@@ -28,6 +47,67 @@
                     font-size: 24px;
                     font-style: normal;
                     font-weight: 400;
+                }
+            }
+        }
+    }
+}
+
+/* Responsive Design for How Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        .custom-modal-content {
+            .section-heading {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 10px !important;
+            }
+            
+            h2 {
+                font-size: 20px !important;
+                text-align: center !important;
+                
+                span {
+                    font-size: 14px !important;
+                }
+            }
+            
+            .list-container {
+                grid-template-columns: 1fr !important;
+                grid-gap: 15px !important;
+                
+                .single-list {
+                    padding: 15px !important;
+                    
+                    p {
+                        font-size: 18px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-body {
+        .custom-modal-content {
+            h2 {
+                font-size: 18px !important;
+                
+                span {
+                    font-size: 12px !important;
+                }
+            }
+            
+            .list-container {
+                grid-gap: 10px !important;
+                
+                .single-list {
+                    padding: 10px !important;
+                    
+                    p {
+                        font-size: 16px !important;
+                    }
                 }
             }
         }

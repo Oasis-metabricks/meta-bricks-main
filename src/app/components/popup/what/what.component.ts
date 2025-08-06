@@ -9,4 +9,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 })
 export class WhatComponent {
   constructor(public modalRef: BsModalRef) {}
+  
+  goBack() {
+    this.modalRef.hide();
+  }
 }
