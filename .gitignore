@@ -54,3 +54,12 @@ jspm_packages/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Angular cache
+.angular/
+
+# Build output
+dist/
+
+# Deployment files
+deployment/
