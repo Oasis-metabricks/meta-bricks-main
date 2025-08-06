@@ -17,3 +17,38 @@
         }
     }
 }
+
+/* Responsive Design for Deliverable Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        .custom-modal-content {
+            grid-template-columns: 1fr !important;
+            grid-gap: 30px !important;
+            
+            h2 {
+                font-size: 28px !important;
+                text-align: center !important;
+            }
+            
+            .right-section {
+                grid-gap: 15px !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-body {
+        .custom-modal-content {
+            grid-gap: 20px !important;
+            
+            h2 {
+                font-size: 24px !important;
+            }
+            
+            .right-section {
+                grid-gap: 10px !important;
+            }
+        }
+    }
+}

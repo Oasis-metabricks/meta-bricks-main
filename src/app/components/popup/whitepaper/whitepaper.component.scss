@@ -35,3 +35,62 @@
         }
     }
 }
+
+/* Responsive Design for Whitepaper Modal */
+@media (max-width: 768px) {
+    .modal-body {
+        .custom-modal-content {
+            .section-heading {
+                flex-direction: column !important;
+                text-align: center !important;
+                gap: 10px !important;
+            }
+            
+            h2 {
+                font-size: 20px !important;
+                text-align: center !important;
+                
+                span {
+                    font-size: 14px !important;
+                }
+            }
+            
+            .list-container {
+                .single-list {
+                    padding: 10px 12px !important;
+                    flex-direction: column !important;
+                    gap: 8px !important;
+                    
+                    p {
+                        font-size: 18px !important;
+                        text-align: center !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-body {
+        .custom-modal-content {
+            h2 {
+                font-size: 18px !important;
+                
+                span {
+                    font-size: 12px !important;
+                }
+            }
+            
+            .list-container {
+                .single-list {
+                    padding: 8px 10px !important;
+                    
+                    p {
+                        font-size: 16px !important;
+                    }
+                }
+            }
+        }
+    }
+}

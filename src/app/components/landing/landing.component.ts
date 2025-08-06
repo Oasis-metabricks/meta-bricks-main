@@ -31,7 +31,7 @@ export class LandingComponent implements OnInit {
   async resetMintedBricks(): Promise<void> {
     // Call a backend endpoint to reset mintedBricks.json
     try {
-      await this.http.post('http://localhost:3001/reset-minted-bricks', {}).toPromise();
+      await this.http.post('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/reset-minted-bricks', {}).toPromise();
     } catch (err) {
       console.error('Failed to reset minted bricks', err);
     }
@@ -60,7 +60,7 @@ export class LandingComponent implements OnInit {
   }
 
   fetchMintedBricks(): void {
-    this.http.get<{ minted: string[] }>('http://localhost:3001/minted-bricks').subscribe({
+    this.http.get<{ minted: string[] }>('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/minted-bricks').subscribe({
       next: (res) => {
         this.mintedBricks = res.minted;
       },

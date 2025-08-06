@@ -10,4 +10,8 @@ export class ShareReferralsComponent {
   showContent:boolean = true;
   
   constructor(public modalRef: BsModalRef) {}
+  
+  goBack() {
+    this.modalRef.hide();
+  }
 }

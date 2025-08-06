@@ -121,3 +121,67 @@ h2 {
     color: #343BE6 !important;
   }
 }
+
+/* Responsive Design for Mint Modal */
+@media (max-width: 768px) {
+  .mint-modal {
+    min-height: 60vh !important;
+    
+    .main-question {
+      font-size: 1.5rem !important;
+      margin: 30px 0 24px 0 !important;
+    }
+    
+    .payment-method-choice {
+      flex-direction: column !important;
+      gap: 20px !important;
+      margin-bottom: 30px !important;
+      
+      .button {
+        min-width: 200px !important;
+        min-height: 50px !important;
+        font-size: 1rem !important;
+      }
+    }
+  }
+  
+  .buttons-list {
+    flex-direction: column !important;
+    gap: 15px !important;
+    
+    button.button {
+      width: 100% !important;
+      max-width: 200px !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .mint-modal {
+    min-height: 50vh !important;
+    
+    .main-question {
+      font-size: 1.25rem !important;
+      margin: 20px 0 16px 0 !important;
+    }
+    
+    .payment-method-choice {
+      gap: 15px !important;
+      margin-bottom: 20px !important;
+      
+      .button {
+        min-width: 180px !important;
+        min-height: 45px !important;
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+  
+  .buttons-list {
+    gap: 10px !important;
+    
+    button.button {
+      max-width: 180px !important;
+    }
+  }
+}

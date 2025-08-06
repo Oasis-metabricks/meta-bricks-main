@@ -23,7 +23,7 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch all bricks
-    this.http.get<any[]>('http://localhost:3001/bricks').subscribe({
+    this.http.get<any[]>('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/bricks').subscribe({
       next: (bricks) => {
         this.allBricks = bricks;
       },
