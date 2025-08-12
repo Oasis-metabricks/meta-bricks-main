@@ -1,0 +1,86 @@
+{
+  "name": "MetaBrick #85",
+  "symbol": "MBRICK",
+  "description": "Congratulations! You have got your hands on an 'INDUSTRIAL' grade Metabrick from the Metabrick wall. Perks will be revealed at specific destruction thresholds (10%, 25%, 50%, 75%, 100%).\n\nBy holding this Metabrick you are supporting construction of Metaverse systems via OASISWEB4 - thank you for your service.",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeia7dnclsgkjh6ugyzdzb3uivkydgozpmnbtpnnu4an3t2fta45ktm/industrial_brick.png",
+  "attributes": [
+    {
+      "trait_type": "Token Airdrop",
+      "value": "Guaranteed",
+      "description": "Token airdrop on TGE"
+    },
+    {
+      "trait_type": "TGE Discount",
+      "value": "15%",
+      "description": "Token Generation Event discount"
+    },
+    {
+      "trait_type": "Mystery",
+      "value": "Mystery Perk #9",
+      "description": "Mystery perk - will be revealed at 75% wall completion (324 bricks sold)",
+      "rarity": "Mystery"
+    },
+    {
+      "trait_type": "Mystery",
+      "value": "Mystery Perk #9",
+      "description": "Mystery perk - will be revealed at 75% wall completion (324 bricks sold)",
+      "rarity": "Mystery"
+    }
+  ],
+  "hiddenMetadata": {
+    "type": "industrial",
+    "rarity": "Rare"
+  },
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "https://gateway.pinata.cloud/ipfs/bafybeia7dnclsgkjh6ugyzdzb3uivkydgozpmnbtpnnu4an3t2fta45ktm/industrial_brick.png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "85ArqfA2fy8spGcMGsSW7cbEJAWj26vewmmoG2bwkgT9",
+        "share": 7
+      }
+    ]
+  },
+  "perks": [
+    {
+      "category": "Physical",
+      "name": "MetaBrick Keychain",
+      "description": "Revealed: MetaBrick Keychain",
+      "rarity": "Guaranteed",
+      "value": "Keychain",
+      "revealed": true,
+      "perkId": "keychain"
+    },
+    {
+      "category": "Mystery",
+      "name": "Mystery Perk #10",
+      "description": "Mystery perk - will be revealed at 75% wall completion (324 bricks sold)",
+      "rarity": "Mystery",
+      "value": "Mystery10",
+      "revealed": false,
+      "perkId": 10
+    },
+    {
+      "category": "Mystery",
+      "name": "Mystery Perk #3",
+      "description": "Mystery perk - will be revealed at 50% wall completion (216 bricks sold)",
+      "rarity": "Mystery",
+      "value": "Mystery3",
+      "revealed": false,
+      "perkId": 3
+    }
+  ],
+  "coreBenefits": {
+    "tokenAirdrop": 100,
+    "tgeDiscount": 15
+  },
+  "productFocus": [
+    "Our World"
+  ],
+  "verificationHash": "80998aec537f80d2056fff0f51575011ffb17cb36946f264fa46435ccbbe2c31"
+}

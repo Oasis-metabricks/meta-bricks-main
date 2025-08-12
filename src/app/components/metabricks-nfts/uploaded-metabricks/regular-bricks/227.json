@@ -1,0 +1,69 @@
+{
+  "name": "MetaBrick #227",
+  "symbol": "MBRICK",
+  "description": "You have successfully removed a 'REGULAR' brick from the Metabricks wall. Perks will be revealed at specific destruction thresholds (10%, 25%, 50%, 75%, 100%).\n\nBy holding this Metabrick you are supporting construction of Metaverse systems via OASISWEB4 - thank you for your service.",
+  "image": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png",
+  "attributes": [
+    {
+      "trait_type": "Token Airdrop",
+      "value": "Guaranteed",
+      "description": "Token airdrop on TGE"
+    },
+    {
+      "trait_type": "TGE Discount",
+      "value": "10%",
+      "description": "Token Generation Event discount"
+    },
+    {
+      "trait_type": "Mystery",
+      "value": "Mystery Perk #13",
+      "description": "Mystery perk - will be revealed at 100% wall completion (432 bricks sold)",
+      "rarity": "Mystery"
+    }
+  ],
+  "hiddenMetadata": {
+    "type": "regular",
+    "rarity": "Common"
+  },
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "85ArqfA2fy8spGcMGsSW7cbEJAWj26vewmmoG2bwkgT9",
+        "share": 7
+      }
+    ]
+  },
+  "perks": [
+    {
+      "category": "Physical",
+      "name": "MetaBrick Keychain",
+      "description": "Revealed: MetaBrick Keychain",
+      "rarity": "Guaranteed",
+      "value": "Keychain",
+      "revealed": true,
+      "perkId": "keychain"
+    },
+    {
+      "category": "Mystery",
+      "name": "Mystery Perk #6",
+      "description": "Mystery perk - will be revealed at 50% wall completion (216 bricks sold)",
+      "rarity": "Mystery",
+      "value": "Mystery6",
+      "revealed": false,
+      "perkId": 6
+    }
+  ],
+  "coreBenefits": {
+    "tokenAirdrop": 100,
+    "tgeDiscount": 10
+  },
+  "productFocus": [],
+  "verificationHash": "3192191416fafa70667e288e7e05ad15f5e81466c466cd36b7847b2bf486f674"
+}

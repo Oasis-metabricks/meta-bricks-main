@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent } from '../landing/landing.component';
 import { HomeComponent } from './home.component';
 import { GalleryComponent } from '../gallery/gallery.component';
+import { HallOfFameComponent } from '../hall-of-fame/hall-of-fame.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
       {
         path: 'gallery',
         component: GalleryComponent
+      },
+      {
+        path: 'hall-of-fame',
+        component: HallOfFameComponent
       }
     ]
   }

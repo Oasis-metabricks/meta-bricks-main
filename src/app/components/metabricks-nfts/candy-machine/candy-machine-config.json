@@ -1,0 +1,139 @@
+{
+  "network": "devnet",
+  "creatorWallet": "85ArqfA2fy8spGcMGsSW7cbEJAWj26vewmmoG2bwkgT9",
+  "brickTypes": {
+    "regular": {
+      "count": 360,
+      "rarity": "Common",
+      "imageHash": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+      "imageFilename": "regular_brick.png",
+      "tokenAirdrop": 100,
+      "tgeDiscount": 10
+    },
+    "industrial": {
+      "count": 60,
+      "rarity": "Rare",
+      "imageHash": "bafybeia7dnclsgkjh6ugyzdzb3uivkydgozpmnbtpnnu4an3t2fta45ktm",
+      "imageFilename": "industrial_brick.png",
+      "tokenAirdrop": 200,
+      "tgeDiscount": 15
+    },
+    "legendary": {
+      "count": 12,
+      "rarity": "Legendary",
+      "imageHash": "bafybeia7dnclsgkjh6ugyzdzb3uivkydgozpmnbtpnnu4an3t2fta45ktm",
+      "imageFilename": "legendary_brick.png",
+      "tokenAirdrop": 300,
+      "tgeDiscount": 20
+    }
+  },
+  "perkSystem": {
+    "physical": [
+      {
+        "name": "MetaBrick Keychain",
+        "rarity": "Guaranteed",
+        "value": "Keychain"
+      }
+    ],
+    "oasis": [
+      {
+        "name": "Bronze Tier API Access",
+        "rarity": "Common",
+        "value": "Bronze"
+      },
+      {
+        "name": "Silver Tier API Access",
+        "rarity": "Rare",
+        "value": "Silver"
+      },
+      {
+        "name": "Gold Tier API Access",
+        "rarity": "Rare",
+        "value": "Gold"
+      },
+      {
+        "name": "Free OAPP Development",
+        "rarity": "Legendary",
+        "value": "OAPP"
+      }
+    ],
+    "ourWorld": [
+      {
+        "name": "Oland Airdrop",
+        "rarity": "Common",
+        "value": "Oland"
+      },
+      {
+        "name": "Billboard Placement",
+        "rarity": "Rare",
+        "value": "Billboard"
+      },
+      {
+        "name": "Personal Statue",
+        "rarity": "Legendary",
+        "value": "Statue"
+      },
+      {
+        "name": "Landmark Naming",
+        "rarity": "Rare",
+        "value": "Landmark"
+      }
+    ],
+    "arWorld": [
+      {
+        "name": "Token Integration",
+        "rarity": "Rare",
+        "value": "Integration"
+      },
+      {
+        "name": "Custom AR Experience",
+        "rarity": "Rare",
+        "value": "AR Experience"
+      },
+      {
+        "name": "Custom Building",
+        "rarity": "Legendary",
+        "value": "Custom Building"
+      }
+    ],
+    "holoNET": [
+      {
+        "name": "Free hApp Creation",
+        "rarity": "Rare",
+        "value": "hApp"
+      }
+    ],
+    "special": [
+      {
+        "name": "OASIS Integration Request",
+        "rarity": "Rare",
+        "value": "Integration Request"
+      },
+      {
+        "name": "Mystery Perk",
+        "rarity": "Legendary",
+        "value": "Mystery"
+      },
+      {
+        "name": "Early Access",
+        "rarity": "Rare",
+        "value": "Early Access"
+      }
+    ]
+  },
+  "mintConfig": {
+    "price": 0.5,
+    "symbol": "MBRICK",
+    "sellerFeeBasisPoints": 700,
+    "maxSupply": 432,
+    "isMutable": true,
+    "creators": [
+      {
+        "address": "85ArqfA2fy8spGcMGsSW7cbEJAWj26vewmmoG2bwkgT9",
+        "share": 100
+      }
+    ]
+  },
+  "totalBricks": 432,
+  "generatedAt": "2025-08-12T11:07:50.730Z"
+}

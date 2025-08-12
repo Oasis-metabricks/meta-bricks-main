@@ -1,0 +1,410 @@
+// Hall of Fame specific styling
+.hall-of-fame-container {
+  position: relative;
+  top: 36px;
+  height: calc(100vh - 180px);
+}
+
+// Loading section
+.loading-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  border-left: 1px solid #679BFF;
+  border-right: 1px solid #679BFF;
+  border-bottom: 1px solid #679BFF;
+
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #161A83;
+    border-top: 3px solid #679BFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  p {
+    color: #679BFF;
+    font-size: 24px;
+    font-family: 'Mek' !important;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Error section
+.error-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  border-left: 1px solid #679BFF;
+  border-right: 1px solid #679BFF;
+  border-bottom: 1px solid #679BFF;
+
+  p {
+    color: #FF6B6B;
+    font-size: 24px;
+    font-family: 'Mek' !important;
+    margin-bottom: 20px;
+  }
+
+  .retry-button {
+    background: #679BFF;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-family: 'Mek' !important;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background: #5A8AFF;
+    }
+  }
+}
+
+// Supporter card enhancements
+.supporter-card {
+  position: relative;
+  overflow: hidden;
+  
+  // Special styling for Top MetaBoss
+  &.top-metaboss-card {
+    border: 3px solid #FFD700 !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+      animation: shimmer 2s infinite;
+    }
+  }
+  
+  // Special styling for Elite MetaBosses
+  &.elite-metaboss-card {
+    border: 2px solid #C0C0C0 !important;
+    background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(160, 160, 160, 0.1));
+  }
+
+  .ranking-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    border: 3px solid #161A83;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    
+    .rank-number {
+      font-size: 24px;
+      font-weight: bold;
+      font-family: 'Mek' !important;
+      margin-bottom: 4px;
+    }
+    
+    .rank-title {
+      font-size: 14px;
+      font-family: 'Mek' !important;
+      line-height: 1.2;
+    }
+    
+    // Top MetaBoss styling
+    &.top-metaboss {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border-color: #B8860B;
+      
+      .rank-number, .rank-title {
+        color: #161A83;
+        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.9);
+      }
+    }
+    
+    // Elite MetaBoss styling
+    &.elite-metaboss {
+      background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+      border-color: #808080;
+      
+      .rank-number, .rank-title {
+        color: #161A83;
+        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    // Gold MetaBoss styling
+    &.gold-metaboss {
+      background: linear-gradient(135deg, #FFD700, #DAA520);
+      border-color: #B8860B;
+      
+      .rank-number, .rank-title {
+        color: #161A83;
+        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    // Silver MetaBoss styling
+    &.silver-metaboss {
+      background: linear-gradient(135deg, #C0C0C0, #A0A0A0);
+      border-color: #808080;
+      
+      .rank-number, .rank-title {
+        color: #161A83;
+        text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+      }
+    }
+    
+    // MetaBoss styling
+    &.metaboss {
+      background: linear-gradient(135deg, #679BFF, #5A8AFF);
+      border-color: #4A7AFF;
+      
+      .rank-number, .rank-title {
+        color: white;
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+
+  .supporter-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #161A83;
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .stat-label {
+        font-size: 16px;
+        color: #679BFF;
+        font-family: 'Mek' !important;
+        margin-bottom: 5px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+        font-family: 'Mek' !important;
+      }
+    }
+  }
+}
+
+// Top MetaBoss highlight section
+.top-metaboss-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  border-left: 1px solid #679BFF;
+  border-right: 1px solid #679BFF;
+  border-bottom: 1px solid #679BFF;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+    animation: shimmer 3s infinite;
+  }
+  
+
+  
+  h3 {
+    color: #FFD700;
+    font-size: 36px;
+    font-family: 'Mek' !important;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+  }
+  
+  p {
+    color: #fff;
+    font-size: 24px;
+    font-family: 'Mek' !important;
+    margin: 0;
+  }
+}
+
+// Empty state
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+  border-left: 1px solid #679BFF;
+  border-right: 1px solid #679BFF;
+  border-bottom: 1px solid #679BFF;
+
+  .empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+  }
+
+  h3 {
+    color: #fff;
+    font-size: 32px;
+    font-family: 'Mek' !important;
+    margin-bottom: 15px;
+  }
+
+  p {
+    color: #679BFF;
+    font-size: 20px;
+    font-family: 'Mek' !important;
+    margin-bottom: 30px;
+    max-width: 400px;
+    line-height: 1.5;
+  }
+
+  .cta-button {
+    background: linear-gradient(135deg, #679BFF, #5A8AFF);
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 20px;
+    font-family: 'Mek' !important;
+    border-radius: 6px;
+    border: 2px solid #161A83;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, #5A8AFF, #679BFF);
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// Responsive design for mobile
+@media (max-width: 768px) {
+  .hall-of-fame-container {
+    top: 20px !important;
+    height: calc(100vh - 200px) !important;
+  }
+
+  .section-list {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .supporter-card {
+    .ranking-badge {
+      position: static;
+      margin-bottom: 15px;
+      text-align: center;
+      min-width: auto;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-metaboss-highlight {
+    padding: 20px 15px;
+    
+    h3 {
+      font-size: 28px;
+    }
+    
+    p {
+      font-size: 20px;
+    }
+  }
+  
+  .section-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  .supporter-card {
+    padding: 15px !important;
+
+    .supporter-tier span {
+      font-size: 14px !important;
+    }
+
+    .supporter-stats {
+      flex-direction: column;
+      gap: 15px;
+
+      .stat-item {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .empty-state {
+    padding: 60px 20px;
+
+    .empty-icon {
+      font-size: 48px;
+    }
+
+    h3 {
+      font-size: 24px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    .cta-button {
+      padding: 12px 24px;
+      font-size: 18px;
+    }
+  }
+}

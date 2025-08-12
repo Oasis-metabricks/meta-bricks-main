@@ -62,23 +62,35 @@ export class MintComponent {
       return;
     }
     try {
+      console.log('🔔 Creating Stripe checkout session for:', this.brick.metadataUri);
+      
       const response = await fetch('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletAddress, metadataUri: this.brick.metadataUri })
       });
-      const data = await response.json();
-      if (!data.id) throw new Error('Failed to create Stripe session');
       
-      // Open Stripe checkout in a new tab
-      const checkoutUrl = `https://checkout.stripe.com/pay/${data.id}`;
-      window.open(checkoutUrl, '_blank');
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
+      }
+      
+      const data = await response.json();
+      console.log('✅ Stripe session created:', data);
+      
+      if (!data.checkoutUrl) {
+        throw new Error('No checkout URL received from backend');
+      }
+      
+      // Open Stripe checkout using the provided URL
+      console.log('🌐 Opening Stripe checkout:', data.checkoutUrl);
+      window.open(data.checkoutUrl, '_blank');
       
       // Start polling for payment status
       this.checkPaymentStatus(data.id);
       
     } catch (err: any) {
-      console.error('Stripe payment error:', err);
+      console.error('❌ Stripe payment error:', err);
       alert('Stripe payment failed: ' + (err.message || err));
     }
   }
@@ -163,7 +175,7 @@ export class MintComponent {
         const response = await fetch(`https://metabricks-backend-api-66e7d2abb038.herokuapp.com/check-payment-status/${sessionId}`);
         const data = await response.json();
         
-        if (data.status === 'complete') {
+        if (data.status === 'paid') {
           alert('Payment completed successfully! Your brick will be minted shortly.');
           this.brickEvents.notifyMinted();
           return;

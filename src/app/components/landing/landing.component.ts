@@ -41,19 +41,28 @@ export class LandingComponent implements OnInit {
     this.allBricks = [];
     const rows = 24;
     const cols = 18;
-    const METADATA_CID = 'bafybeifkewu2rzq7mhit3cw3lhnm3zdfn2c5ijx3zb4t56ued6g5i3msm4';
+    // Updated to use the new randomized MetaBricks IPFS hash
+    const METADATA_CID = 'bafybeihkspp2kxsz4moylkgjpkdwm4sbafqluqmtzh3hy7x42jhvx6n5ym';
+    
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         let isOffsetRow = i % 2 !== 0;
         let offsetAdjustment = isOffsetRow ? 0.5 : 0;
         const id = i * cols + j;
+        
+        // Enable all 432 bricks with metadata (not just first 30)
+        const brickNumber = id + 1;
+        const metadataUri = brickNumber <= 432 ? `https://gateway.pinata.cloud/ipfs/${METADATA_CID}/${brickNumber}.json` : null;
+        
         this.allBricks.push({
           id: id,
-          brickNumber: `Brick ${id + 1}`,
+          brickNumber: `Brick ${brickNumber}`,
           mintPrice: '0.4 SOL',
           position: `X${j + offsetAdjustment + 1}, Y${i + 1}`,
           offset: isOffsetRow,
-          metadataUri: id < 30 ? `https://gateway.pinata.cloud/ipfs/${METADATA_CID}/${id}.json` : null
+          metadataUri: metadataUri,
+          // Add brick number for easy reference
+          brickNumberForMetadata: brickNumber <= 432 ? brickNumber : null
         });
       }
     }
@@ -96,21 +105,27 @@ export class LandingComponent implements OnInit {
   generateBricks(): void {
     const rows = 24; // 24 rows as mentioned
     const cols = 18; // 18 columns for each row
-    const METADATA_CID = 'bafybeifkewu2rzq7mhit3cw3lhnm3zdfn2c5ijx3zb4t56ued6g5i3msm4';
+    // Updated to use the new randomized MetaBricks IPFS hash
+    const METADATA_CID = 'bafybeihkspp2kxsz4moylkgjpkdwm4sbafqluqmtzh3hy7x42jhvx6n5ym';
     let index = 0;
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
         let isOffsetRow = i % 2 !== 0;
         let offsetAdjustment = isOffsetRow ? 0.5 : 0; // Adjust X position by half a brick width on odd rows
         const id = i * cols + j;
-        // this.bricks.push({ // This line was removed as per the edit hint
-        //   id: id,
-        //   brickNumber: `Brick ${id + 1}`,
-        //   mintPrice: '0.4 SOL',
-        //   position: `X${j + offsetAdjustment + 1}, Y${i + 1}`,
-        //   offset: isOffsetRow, // Adding the offset property for conditional styling
-        //   metadataUri: id < 30 ? `https://gateway.pinata.cloud/ipfs/${METADATA_CID}/${id}.json` : null
-        // });
+        const brickNumber = id + 1;
+        
+        // Enable all 432 bricks with metadata
+        if (brickNumber <= 432) {
+          // this.bricks.push({ // This line was removed as per the edit hint
+          //   id: id,
+          //   brickNumber: `Brick ${brickNumber}`,
+          //   mintPrice: '0.4 SOL',
+          //   position: `X${j + offsetAdjustment + 1}, Y${i + 1}`,
+          //   offset: isOffsetRow, // Adding the offset property for conditional styling
+          //   metadataUri: `https://gateway.pinata.cloud/ipfs/${METADATA_CID}/${brickNumber}.json`
+          // });
+        }
       }
     }
   }

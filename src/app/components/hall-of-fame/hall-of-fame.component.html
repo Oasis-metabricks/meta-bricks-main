@@ -1,0 +1,89 @@
+<div class="middle-container hall-of-fame-container">
+    <div class="middle-content">
+        <div class="section-header">
+            <h2>🏆 Hall of Fame</h2>
+
+            <div class="right-section">
+                <p>Supporters <span>{{ totalSupporters }}</span></p>
+                <p>Total Raised <span>${{ totalRevenue.toLocaleString() }}</span></p>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="loading-section">
+            <div class="loading-spinner"></div>
+            <p>Loading MetaBricks supporters...</p>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="error && !loading" class="error-section">
+            <p>{{ error }}</p>
+            <button class="retry-button" (click)="fetchSupporters()">Try Again</button>
+        </div>
+
+        <!-- Top MetaBoss Highlight -->
+        <div *ngIf="!loading && !error && supporters.length > 0" class="top-metaboss-highlight">
+            <h3>Top MetaBoss</h3>
+            <p>{{ supporters[0].walletAddress }} - ${{ supporters[0].totalContribution.toLocaleString() }}</p>
+        </div>
+
+        <!-- Supporters List -->
+        <div *ngIf="!loading && !error" class="section-list">
+            <div class="single-section supporter-card"
+                 [ngClass]="supporter.rankClass + '-card'"
+                 *ngFor="let supporter of supporters; trackBy: trackBySupporter"
+                 [@brickAnim]>
+                
+                <!-- Ranking Badge -->
+                <div class="ranking-badge" [ngClass]="supporter.rankClass">
+                    <div class="rank-number">#{{ supporter.rank }}</div>
+                    <div class="rank-title">{{ supporter.supporterTier }}</div>
+                </div>
+
+                <!-- Wallet Address -->
+                <div class="have-top-border">
+                    <p>Wallet Address</p>
+                    <h3>{{ getShortWalletAddress(supporter.walletAddress) }}</h3>
+                </div>
+
+                <!-- Bricks Purchased -->
+                <div class="have-top-border">
+                    <p>Bricks Owned</p>
+                    <h3>{{ getBricksDisplay(supporter.bricksPurchased) }}</h3>
+                </div>
+
+                <!-- Total Contribution -->
+                <div class="have-top-border">
+                    <p>Total Contribution</p>
+                    <h3>${{ supporter.totalContribution.toLocaleString() }}</h3>
+                </div>
+
+                <!-- Purchase Date -->
+                <div class="have-top-border">
+                    <p>First Purchase</p>
+                    <h3>{{ formatDate(supporter.firstPurchaseDate) }}</h3>
+                </div>
+
+                <!-- Supporter Stats -->
+                <div class="supporter-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Bricks</span>
+                        <span class="stat-value">{{ supporter.bricksPurchased.length }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Rank</span>
+                        <span class="stat-value" [ngClass]="supporter.rankClass">{{ supporter.rank }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && !error && supporters.length === 0" class="empty-state">
+            <div class="empty-icon">🧱</div>
+            <h3>No Supporters Yet</h3>
+            <p>Be the first to support MetaBricks and claim your spot in the Hall of Fame!</p>
+            <a href="/home" class="cta-button">Get Your MetaBrick</a>
+        </div>
+    </div>
+</div>
