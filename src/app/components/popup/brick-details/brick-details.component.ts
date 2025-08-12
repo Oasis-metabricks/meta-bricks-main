@@ -29,6 +29,11 @@ export class BrickDetailsComponent implements OnInit {
       next: (res) => {
         this.mintedBricks = res.minted;
         this.isMinted = this.brick && this.brick.metadataUri && this.mintedBricks.includes(this.brick.metadataUri);
+        
+        // Reveal hidden values if brick is minted
+        if (this.isMinted) {
+          this.revealHiddenValues();
+        }
       },
       error: (err) => {
         console.error('Failed to fetch minted bricks', err);
@@ -47,7 +52,25 @@ export class BrickDetailsComponent implements OnInit {
         const res = await fetch(this.brick.metadataUri);
         if (!res.ok) throw new Error('Failed to fetch metadata');
         const metadata = await res.json();
-        this.attributes = Array.isArray(metadata.attributes) ? metadata.attributes : [];
+        
+        // Process attributes to hide TGE discount values for mystery
+        if (Array.isArray(metadata.attributes)) {
+          this.attributes = metadata.attributes.map((attr: any) => {
+            // Create a copy of the attribute
+            const processedAttr = { ...attr };
+            
+            // Hide TGE discount values to maintain mystery (only discount, not airdrop)
+            if (attr.trait_type === 'TGE Discount' || 
+                attr.trait_type === 'Token Generation Event discount' ||
+                (attr.description && attr.description.includes('Token Generation Event discount'))) {
+              processedAttr.value = '??';
+              processedAttr.originalValue = attr.value; // Store original for later
+              processedAttr.isHidden = true;
+            }
+            
+            return processedAttr;
+          });
+        }
       } catch (err: any) {
         this.attributesError = err.message || 'Failed to load attributes';
       }
@@ -69,5 +92,17 @@ export class BrickDetailsComponent implements OnInit {
         brick: { ...this.brick, metadataUri: this.brick.metadataUri }
       }
     });
+  }
+
+  // Method to reveal hidden TGE discount values after purchase
+  revealHiddenValues(): void {
+    if (this.isMinted) {
+      this.attributes = this.attributes.map(attr => {
+        if (attr.isHidden && attr.originalValue) {
+          return { ...attr, value: attr.originalValue, isHidden: false };
+        }
+        return attr;
+      });
+    }
   }
 }

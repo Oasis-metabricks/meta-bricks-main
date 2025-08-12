@@ -1,0 +1,42 @@
+{
+  "uploadDate": "2025-08-12T09:34:00.000Z",
+  "totalBricks": 432,
+  "successfulMetadata": 432,
+  "successfulImages": 432,
+  "metadataResults": {
+    "1": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "2": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "3": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "4": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "5": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "6": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "7": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "8": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "9": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu",
+    "10": "bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu"
+  },
+  "imageResults": {
+    "1": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "2": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "3": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "4": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "5": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "6": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "7": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "8": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "9": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4",
+    "10": "bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4"
+  },
+  "ipfsUrls": {
+    "1": {
+      "metadata": "https://gateway.pinata.cloud/ipfs/bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu/1.json",
+      "image": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png"
+    },
+    "2": {
+      "metadata": "https://gateway.pinata.cloud/ipfs/bafybeiabgzda2j2saxcyqwvhuxo7udamnv67mi2r53vfssnhrvzsl34cbu/2.json",
+      "image": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png"
+    }
+  },
+  "note": "Manual folder upload to Pinata. All 432 metadata files use the same folder hash. Image hashes are from existing brick PNGs."
+}
+

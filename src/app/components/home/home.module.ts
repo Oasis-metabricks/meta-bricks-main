@@ -15,6 +15,7 @@ import { DeliverableComponent } from '../popup/deliverable/deliverable.component
 import { BrickDetailsComponent } from '../popup/brick-details/brick-details.component';
 import { MintComponent } from '../popup/mint/mint.component';
 import { ShareReferralsComponent } from '../popup/share-referrals/share-referrals.component';
+import { HallOfFameComponent } from '../hall-of-fame/hall-of-fame.component';
 import { WalletService } from '../../services/wallet.service'; 
 
 
@@ -25,6 +26,7 @@ import { WalletService } from '../../services/wallet.service';
     HomeComponent,
     LandingComponent,
     GalleryComponent,
+    HallOfFameComponent,
     WhatComponent,
     HowComponent,
     WhitepaperComponent,

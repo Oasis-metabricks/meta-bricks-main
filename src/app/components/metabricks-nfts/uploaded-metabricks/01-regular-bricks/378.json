@@ -1,0 +1,77 @@
+{
+  "name": "MetaBrick #378",
+  "symbol": "MBRICK",
+  "description": "You have successfully removed a 'REGULAR' brick from the Metabricks wall. Perks will be revealed at specific destruction thresholds (10%, 25%, 50%, 75%, 100%).\n\nBy holding this Metabrick you are supporting construction of Metaverse systems via OASISWEB4 - thank you for your service.",
+  "image": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png",
+  "attributes": [
+    {
+      "trait_type": "Token Airdrop",
+      "value": "Guaranteed",
+      "description": "Token airdrop on TGE"
+    },
+    {
+      "trait_type": "TGE Discount",
+      "value": "10%",
+      "description": "Token Generation Event discount"
+    },
+    {
+      "trait_type": "Mystery",
+      "value": "Mystery Perk #7",
+      "description": "Mystery perk - will be revealed at 10% wall completion (43 bricks sold)",
+      "rarity": "Mystery"
+    },
+    {
+      "trait_type": "Mystery",
+      "value": "Mystery Perk #5",
+      "description": "Mystery perk - will be revealed at 10% wall completion (43 bricks sold)",
+      "rarity": "Mystery"
+    }
+  ],
+  "hiddenMetadata": {
+    "type": "regular",
+    "rarity": "Common"
+  },
+  "properties": {
+    "files": [
+      {
+        "type": "image/png",
+        "uri": "https://gateway.pinata.cloud/ipfs/bafkreigqsyyi6qumiq544of4kzwfgffohvnvq36usivstvrfyw52u5qxf4/regular_brick.png"
+      }
+    ],
+    "category": "image",
+    "creators": [
+      {
+        "address": "85ArqfA2fy8spGcMGsSW7cbEJAWj26vewmmoG2bwkgT9",
+        "share": 7
+      }
+    ]
+  },
+  "perks": [
+    {
+      "category": "Physical",
+      "name": "MetaBrick Keychain",
+      "description": "Revealed: MetaBrick Keychain",
+      "rarity": "Guaranteed",
+      "value": "Keychain",
+      "revealed": true,
+      "perkId": "keychain"
+    },
+    {
+      "category": "Mystery",
+      "name": "Mystery Perk #11",
+      "description": "Mystery perk - will be revealed at 75% wall completion (324 bricks sold)",
+      "rarity": "Mystery",
+      "value": "Mystery11",
+      "revealed": false,
+      "perkId": 11
+    }
+  ],
+  "coreBenefits": {
+    "tokenAirdrop": 100,
+    "tgeDiscount": 10
+  },
+  "productFocus": [
+    "OASIS Platform"
+  ],
+  "verificationHash": "4c0d00c96704289d88232432a9ba8faef1e0bba7d9d13335bd2ec91c567a6ff5"
+}

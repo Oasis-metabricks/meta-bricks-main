@@ -6,6 +6,22 @@
 
       <div class="second-box">
         <h2>Metabrick Official Supply</h2>
+        
+        <!-- Mystery and Excitement Copy -->
+        <div class="mystery-info">
+          <div class="mystery-header">
+            <span class="mystery-icon">🎲</span>
+            <span class="mystery-text">MYSTERY BRICK</span>
+          </div>
+          <p class="mystery-description">
+            <strong>Rarity Revealed Upon Purchase!</strong> Each MetaBrick holds hidden secrets that will be unlocked when you mint. 
+            <span class="highlight">Limited Edition MetaBricks Keychain</span> guaranteed with every purchase!
+          </p>
+          <div class="perk-reveal-info">
+            <span class="perk-icon">🎁</span>
+            <span class="perk-text">Special perks will be revealed as the wall reaches completion milestones</span>
+          </div>
+        </div>
 
         <div class="list-data-container">
           <div class="list-data">
@@ -33,8 +49,12 @@
             <div class="list-data" *ngFor="let attr of attributes">
               <p>{{attr.trait_type || attr.type || 'Attribute'}}</p>
               <span>
+                <!-- Show mystery values for hidden attributes -->
                 <ng-container *ngIf="(attr.trait_type === 'Rarity' || attr.trait_type === 'Type' || attr.type === 'Rarity' || attr.type === 'Type') && !isMinted">??????</ng-container>
-                <ng-container *ngIf="!(attr.trait_type === 'Rarity' || attr.trait_type === 'Type' || attr.type === 'Rarity' || attr.type === 'Type') || isMinted">{{attr.value}}</ng-container>
+                <!-- Show mystery for TGE discount values -->
+                <ng-container *ngIf="attr.isHidden && !isMinted">??</ng-container>
+                <!-- Show actual values for revealed attributes -->
+                <ng-container *ngIf="(!attr.isHidden && !(attr.trait_type === 'Rarity' || attr.trait_type === 'Type' || attr.type === 'Rarity' || attr.type === 'Type')) || isMinted">{{attr.value}}</ng-container>
               </span>
             </div>
           </ng-container>
