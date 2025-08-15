@@ -1,5 +1,6 @@
 declare let window: any;
 import { Component, Renderer2, NgZone, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WalletService } from '../../../services/wallet.service';
 
 @Component({
@@ -8,13 +9,17 @@ import { WalletService } from '../../../services/wallet.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  public walletAddress: string | null = null;
+  destroyedCount: number = 0;
+  leftCount: number = 432;
+  walletAddress: string | null = null;
+  isHamburgerOpen: boolean = false;
 
   constructor(
     private walletService: WalletService,
     private renderer: Renderer2,
     private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -62,5 +67,13 @@ export class HeaderComponent implements OnInit {
         alert('Error connecting to Phantom wallet.');
       });
     });
+  }
+
+  toggleHamburgerMenu(): void {
+    this.isHamburgerOpen = !this.isHamburgerOpen;
+  }
+
+  goHome(): void {
+    this.router.navigate(['/']);
   }
 }

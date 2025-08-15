@@ -67,7 +67,7 @@
 
         <p class="link">Hash↗</p>
 
-        <button class="button" (click)="openShareModal()">SHARE↗</button>
+        <button class="button bulk-buy-btn" (click)="openBulkBuyModal()">BULK BUY</button>
 
         <ng-container *ngIf="brick.metadataUri; else notAvailable">
           <button class="button light-color" (click)="openMintModal()" [disabled]="isMinted" *ngIf="!isMinted">MINT</button>

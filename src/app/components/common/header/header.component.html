@@ -1,14 +1,49 @@
 <!-- src/app/components/common/header/header.component.html -->
-<header>
-    <div class="logo" style="cursor:pointer;" routerLink="/">
-        <img src="/assets/images/logo.png" alt="">
-        <h1>METABRiCKS</h1>
-    </div>
-    <div id="target-element" class="right-section buttons-list">
-        <button class="button" routerLink="gallery">Gallery</button>
-        <button class="button" routerLink="hall-of-fame">Hall of Fame</button>
-       <button class="button" (click)="connectWallet()">
-  {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
-</button>
+<header class="header-component">
+    <!-- Header Content: Title, Logo, Connect Wallet -->
+    <div class="header-content">
+        <!-- Left: MetaBricks Title -->
+        <div class="logo-text" (click)="goHome()" style="cursor: pointer;">
+            <h1>METABRiCKS</h1>
+        </div>
+        
+        <!-- Center: Brick Logo -->
+        <div class="center-logo" (click)="goHome()" style="cursor: pointer;">
+            <img src="/assets/images/logo.png" alt="">
+        </div>
+        
+        <!-- Right: Desktop Navigation and Connect Wallet -->
+        <div class="desktop-connect-wallet-section">
+            <!-- Desktop Navigation Buttons -->
+            <div class="desktop-nav-buttons">
+                <button class="nav-btn" routerLink="gallery">Gallery</button>
+                <button class="nav-btn" routerLink="hall-of-fame">Hall of Fame</button>
+            </div>
+            
+            <button class="desktop-connect-wallet-btn" (click)="connectWallet()">
+                {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
+            </button>
+        </div>
+        
+        <!-- Mobile Connect Wallet Button Only -->
+        <div class="mobile-connect-wallet-section">
+            <button class="mobile-connect-wallet-btn" (click)="connectWallet()">
+                {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
+            </button>
+        </div>
     </div>
 </header>
+
+<!-- Hamburger Menu - Only for Mobile -->
+<div class="hamburger-menu">
+    <button class="hamburger-toggle" (click)="toggleHamburgerMenu()">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+    
+    <div class="hamburger-content" [class.open]="isHamburgerOpen">
+        <button class="hamburger-nav-btn" routerLink="gallery">Gallery</button>
+        <button class="hamburger-nav-btn" routerLink="hall-of-fame">Hall of Fame</button>
+    </div>
+</div>

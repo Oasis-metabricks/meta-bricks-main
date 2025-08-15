@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BrickDetailsComponent } from '../popup/brick-details/brick-details.component';
+import { WhatComponent } from '../popup/what/what.component';
+import { HowComponent } from '../popup/how/how.component';
+import { WhitepaperComponent } from '../popup/whitepaper/whitepaper.component';
+import { DeliverableComponent } from '../popup/deliverable/deliverable.component';
 import { HttpClient } from '@angular/common/http';
 import { BrickEventsService } from '../../services/brick-events.service';
+import { WalletService } from '../../services/wallet.service';
 
 @Component({
   selector: 'app-landing',
@@ -13,12 +18,31 @@ export class LandingComponent implements OnInit {
   allBricks: any[] = [];
   mintedBricks: string[] = [];
   modalRef!: BsModalRef;
+  walletAddress: string | null = null;
+  isOnRightSide: boolean = false;
+  isHamburgerOpen: boolean = false;
+  
+  // Brick count properties
+  destroyedCount: number = 0;
+  leftCount: number = 432; // Total bricks
+  
+  // Position tracking for brick count box
+  isCountOnLeftSide: boolean = false;
+  
+  // Position tracking for navigation box
+  isNavOnRightSide: boolean = false;
 
-  constructor(private modalService: BsModalService, private http: HttpClient, private brickEvents: BrickEventsService) {}
+  constructor(
+    private modalService: BsModalService, 
+    private http: HttpClient, 
+    private brickEvents: BrickEventsService,
+    private walletService: WalletService
+  ) {}
 
   ngOnInit(): void {
     this.resetWall();
     this.fetchMintedBricks();
+    this.checkWalletConnection();
     this.brickEvents.minted$.subscribe(() => {
       // Find the most recently minted brick and trigger explosion
       const lastMinted = this.mintedBricks[this.mintedBricks.length - 1];
@@ -62,7 +86,8 @@ export class LandingComponent implements OnInit {
           offset: isOffsetRow,
           metadataUri: metadataUri,
           // Add brick number for easy reference
-          brickNumberForMetadata: brickNumber <= 432 ? brickNumber : null
+          brickNumberForMetadata: brickNumber <= 432 ? brickNumber : null,
+          seriesNumber: brickNumber
         });
       }
     }
@@ -72,6 +97,9 @@ export class LandingComponent implements OnInit {
     this.http.get<{ minted: string[] }>('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/minted-bricks').subscribe({
       next: (res) => {
         this.mintedBricks = res.minted;
+        // Update brick counts
+        this.destroyedCount = this.mintedBricks.length;
+        this.leftCount = 432 - this.destroyedCount;
       },
       error: (err) => {
         console.error('Failed to fetch minted bricks', err);
@@ -93,6 +121,29 @@ export class LandingComponent implements OnInit {
     setTimeout(() => {
       brick.exploding = false;
     }, 700); // Match animation duration
+  }
+
+  // Check wallet connection status
+  async checkWalletConnection(): Promise<void> {
+    try {
+      const publicKey = await this.walletService.checkWalletConnected();
+      this.walletAddress = publicKey ? publicKey.toString() : null;
+    } catch (error) {
+      console.error('Error checking wallet connection:', error);
+      this.walletAddress = null;
+    }
+  }
+
+  // Connect wallet
+  async connectWallet(): Promise<void> {
+    try {
+      const result = await this.walletService.connectWallet();
+      if (result) {
+        this.walletAddress = result.publicKey.toString();
+      }
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    }
   }
 
   filterBricks(): void {
@@ -139,5 +190,44 @@ export class LandingComponent implements OnInit {
         brick: brick  // Pass the clicked brick's data to the modal
       }
     });
+  }
+
+  openModal(type: string): void {
+    let component: any;
+    
+    switch (type) {
+      case 'what':
+        component = this.modalService.show(WhatComponent);
+        break;
+      case 'how':
+        component = this.modalService.show(HowComponent);
+        break;
+      case 'whitepaper':
+        component = this.modalService.show(WhitepaperComponent);
+        break;
+      case 'deliverable':
+        component = this.modalService.show(DeliverableComponent);
+        break;
+    }
+  }
+
+  togglePosition(): void {
+    this.isOnRightSide = !this.isOnRightSide;
+  }
+
+  toggleHamburgerMenu(): void {
+    this.isHamburgerOpen = !this.isHamburgerOpen;
+  }
+
+  toggleCountPosition(): void {
+    this.isCountOnLeftSide = !this.isCountOnLeftSide;
+  }
+
+  toggleNavPosition(): void {
+    this.isNavOnRightSide = !this.isNavOnRightSide;
+  }
+
+  forceRefresh(): void {
+    this.fetchMintedBricks();
   }
 }
