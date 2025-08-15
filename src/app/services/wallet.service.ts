@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Connection, PublicKey } from '@solana/web3.js';
 
-
 declare let window: any;
 
 @Injectable({
@@ -15,8 +14,6 @@ export class WalletService {
 
   constructor(private http: HttpClient) {
     this.connection = new Connection("https://api.devnet.solana.com", 'confirmed');
-    // If you have a program ID or other initializations, they would go here.
-    // this.programId = new PublicKey("YOUR_SMART_CONTRACT_ADDRESS");
   }
 
   // Connect to Phantom wallet (supports both desktop and mobile)
@@ -93,7 +90,7 @@ export class WalletService {
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
       if (isMobile) {
-        // For mobile, clear stored wallet info
+        // Clear stored wallet info
         localStorage.removeItem('phantom_wallet_info');
         console.log('Mobile wallet disconnected');
       } else {
@@ -132,8 +129,8 @@ export class WalletService {
     return null;
   }
 
-   // Updated method to mint an NFT via your backend
-   mintNFTbackend(data: { walletAddress: string, metadataUri: string }) {
+  // Updated method to mint an NFT via your backend
+  mintNFTbackend(data: { walletAddress: string, metadataUri: string }) {
     return this.http.post(`${this.apiUrl}/mint-nft`, data);
   }
 

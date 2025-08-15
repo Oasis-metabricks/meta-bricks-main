@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ShareReferralsComponent } from '../share-referrals/share-referrals.component'; // Adjust path as necessary
 import { MintComponent } from '../mint/mint.component'; // Adjust path as necessary
+import { BulkBuyComponent } from '../bulk-buy/bulk-buy.component'; // Add bulk buy import
 import { WalletService } from '../../../services/wallet.service';
 
 @Component({
@@ -78,19 +78,18 @@ export class BrickDetailsComponent implements OnInit {
     this.loadingAttributes = false;
   }
 
-  openShareModal(): void {
-    // Logic for opening the share modal
-    this.modalRef = this.modalService.show(ShareReferralsComponent, {
-      class: 'modal-dialog-slide-up' // This class can be adjusted based on your modal CSS
-    });
-  }
-
   openMintModal(): void {
     this.modalRef = this.modalService.show(MintComponent, {
       class: 'modal-dialog-slide-up', // This class can be adjusted based on your modal CSS
       initialState: {
         brick: { ...this.brick, metadataUri: this.brick.metadataUri }
       }
+    });
+  }
+
+  openBulkBuyModal(): void {
+    this.modalRef = this.modalService.show(BulkBuyComponent, {
+      class: 'modal-dialog-slide-up'
     });
   }
 

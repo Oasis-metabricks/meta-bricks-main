@@ -1,0 +1,587 @@
+.custom-modal-content {
+  background: #343BE6;
+  border: 2px solid #b0ffec;
+  border-radius: 0;
+  padding: 25px; // Reduced padding
+  max-width: 800px; // Reduced from 900px for smaller modal
+  width: 90%; // Use percentage for better centering
+  max-height: 75vh; // Reduced height
+  overflow-y: auto; // Enable vertical scrolling
+  margin: 0 auto; // Center the modal
+  box-shadow: 
+    0 0 0 2px #000,
+    0 0 0 4px #b0ffec,
+    0 8px 32px rgba(176, 255, 236, 0.3);
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px; // Reduced margin
+    padding-bottom: 15px; // Reduced padding
+    border-bottom: 2px solid #b0ffec;
+    position: sticky; // Keep header visible while scrolling
+    top: 0;
+    background: #343BE6;
+    z-index: 10;
+    
+    h2 {
+      color: #b0ffec;
+      font-size: 26px; // Slightly smaller
+      font-weight: bold;
+      font-family: 'MEKSans-Regular', monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+    
+    .close-btn {
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      color: #b0ffec;
+      width: 40px;
+      height: 40px;
+      border-radius: 0;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        transform: scale(1.1);
+        box-shadow: 0 0 0 2px #b0ffec;
+      }
+    }
+  }
+  
+  .modal-body {
+    .loading {
+      text-align: center;
+      color: #b0ffec;
+      padding: 50px 20px; // Reduced padding
+      
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(176, 255, 236, 0.3);
+        border-top: 3px solid #b0ffec;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      
+      p {
+        font-size: 18px;
+        font-family: 'MEKSans-Regular', monospace;
+      }
+    }
+    
+    .bulk-buy-content {
+      .tier-selection {
+        margin-bottom: 30px; // Reduced margin
+        
+        h3 {
+          color: #b0ffec;
+          font-size: 20px; // Slightly smaller
+          font-weight: bold;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 20px; // Reduced margin
+          text-align: center;
+        }
+        
+        // Add conversion copy below the heading
+        .conversion-copy {
+          text-align: center;
+          margin-bottom: 25px;
+          padding: 20px;
+          background: rgba(176, 255, 236, 0.1);
+          border: 1px solid rgba(176, 255, 236, 0.3);
+          border-radius: 8px;
+          
+          .copy-title {
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'MEKSans-Regular', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+          }
+          
+          .copy-text {
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: 'MEKSans-Regular', monospace;
+            margin: 0;
+          }
+        }
+        
+        .tiers-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); // Fixed to 2 columns
+          gap: 15px; // Reduced gap to make cards wider
+          max-width: 100%;
+          
+          .tier-card {
+            background: rgba(176, 255, 236, 0.05);
+            border: 2px solid #b0ffec;
+            border-radius: 12px; // Added rounded corners
+            padding: 20px; // Slightly reduced padding
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 380px; // Slightly reduced height
+            display: flex;
+            flex-direction: column;
+            min-width: 320px; // Reduced minimum width for smaller modal
+            
+            // Popular tier styling
+            &.popular {
+              border-color: #ffd700;
+              background: rgba(255, 215, 0, 0.1);
+              box-shadow: 
+                0 0 0 2px #000,
+                0 0 0 4px #ffd700,
+                0 8px 32px rgba(255, 215, 0, 0.3);
+              
+              .popular-badge {
+                background: linear-gradient(45deg, #ffd700, #ffed4e);
+                color: #000;
+                font-weight: bold;
+                padding: 8px 16px;
+                border-radius: 8px; // Rounded badge
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                box-shadow: 0 0 0 2px #000;
+                z-index: 10;
+              }
+            }
+            
+            // Premium tier styling
+            &.premium {
+              border-color: #ff6b35;
+              background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(255, 165, 0, 0.1));
+              box-shadow: 
+                0 0 0 2px #000,
+                0 0 0 4px #ff6b35,
+                0 8px 32px rgba(255, 107, 53, 0.3);
+              
+              .premium-badge {
+                background: linear-gradient(45deg, #ff6b35, #ff8c42);
+                color: #fff;
+                font-weight: bold;
+                padding: 8px 16px;
+                border-radius: 8px; // Rounded badge
+                position: absolute;
+                top: -15px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                box-shadow: 0 0 0 2px #000;
+                z-index: 10;
+              }
+            }
+            
+            &:hover {
+              transform: translateY(-5px);
+              box-shadow: 
+                0 0 0 2px #000,
+                0 0 0 4px #b0ffec,
+                0 12px 40px rgba(176, 255, 236, 0.4);
+            }
+            
+            &.selected {
+              border-color: #fff;
+              background: rgba(176, 255, 236, 0.15);
+              box-shadow: 
+                0 0 0 2px #000,
+                0 0 0 4px #fff,
+                0 8px 32px rgba(255, 255, 255, 0.3);
+            }
+            
+            .tier-header {
+              text-align: center;
+              margin-bottom: 18px; // Slightly reduced
+              
+              h4 {
+                color: #b0ffec;
+                font-size: 18px; // Slightly smaller
+                font-weight: bold;
+                font-family: 'MEKSans-Regular', monospace;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin: 0 0 8px 0;
+              }
+              
+              .tier-description {
+                color: #fff;
+                font-size: 13px; // Slightly smaller
+                line-height: 1.4;
+                margin: 0;
+                font-family: 'MEKSans-Regular', monospace;
+              }
+            }
+            
+            .tier-pricing {
+              text-align: center;
+              margin-bottom: 20px; // Slightly reduced
+              
+              .price-display {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px; // Slightly reduced
+                margin-bottom: 8px;
+                flex-wrap: wrap; // Allow wrapping on smaller cards
+                
+                .original-price {
+                  color: #888;
+                  text-decoration: line-through;
+                  font-size: 15px; // Slightly smaller
+                  font-family: 'MEKSans-Regular', monospace;
+                }
+                
+                .discounted-price {
+                  color: #b0ffec;
+                  font-size: 22px; // Slightly smaller
+                  font-weight: bold;
+                  font-family: 'MEKSans-Regular', monospace;
+                }
+                
+                .discount-tag {
+                  background: #ff6b35;
+                  color: #fff;
+                  padding: 4px 8px;
+                  font-size: 11px; // Slightly smaller
+                  font-weight: bold;
+                  border-radius: 6px; // Rounded tag
+                  font-family: 'MEKSans-Regular', monospace;
+                }
+              }
+              
+              .savings-highlight {
+                color: #ffd700;
+                font-size: 15px; // Slightly smaller
+                font-weight: bold;
+                font-family: 'MEKSans-Regular', monospace;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+              }
+            }
+            
+            .tier-details {
+              flex: 1;
+              margin-bottom: 20px; // Slightly reduced
+              
+              .detail-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 6px 0; // Slightly reduced
+                border-bottom: 1px solid rgba(176, 255, 236, 0.2);
+                
+                &:last-child {
+                  border-bottom: none;
+                }
+                
+                .label {
+                  color: #b0ffec;
+                  font-size: 12px; // Slightly smaller
+                  font-family: 'MEKSans-Regular', monospace;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                }
+                
+                .value {
+                  color: #fff;
+                  font-size: 13px; // Slightly smaller
+                  font-weight: bold;
+                  font-family: 'MEKSans-Regular', monospace;
+                }
+              }
+            }
+            
+            .tier-cta {
+              margin-top: auto;
+              
+              .select-tier-btn {
+                width: 100%;
+                background: rgba(176, 255, 236, 0.2);
+                border: 2px solid #b0ffec;
+                color: #b0ffec;
+                padding: 14px 20px; // Increased padding for larger text
+                border-radius: 8px; // Rounded button
+                font-size: 16px; // Increased font size for larger text
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-family: 'MEKSans-Regular', monospace;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                
+                &:hover {
+                  background: rgba(176, 255, 236, 0.3);
+                  transform: translateY(-2px);
+                }
+                
+                &.selected {
+                  background: #b0ffec;
+                  color: #343BE6;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      .selection-summary {
+        background: rgba(176, 255, 236, 0.1);
+        border: 2px solid #b0ffec;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        
+        h3 {
+          color: #b0ffec;
+          font-size: 20px;
+          font-weight: bold;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin: 0 0 20px 0;
+          text-align: center;
+        }
+        
+        .summary-details {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 20px;
+          
+          .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(176, 255, 236, 0.1);
+            border: 1px solid rgba(176, 255, 236, 0.3);
+            border-radius: 8px;
+            
+            .label {
+              color: #b0ffec;
+              font-size: 14px;
+              font-family: 'MEKSans-Regular', monospace;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            
+            .value {
+              color: #fff;
+              font-size: 16px;
+              font-weight: bold;
+              font-family: 'MEKSans-Regular', monospace;
+              
+              &.savings {
+                color: #ffd700;
+              }
+            }
+          }
+        }
+      }
+      
+      .inventory-status {
+        background: rgba(176, 255, 236, 0.05);
+        border: 2px solid #b0ffec;
+        border-radius: 12px; // Rounded inventory box
+        padding: 25px;
+        margin-bottom: 30px;
+        
+        h3 {
+          color: #b0ffec;
+          font-size: 20px;
+          font-weight: bold;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin: 0 0 20px 0;
+          text-align: center;
+        }
+        
+        .inventory-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 20px;
+          
+          .inventory-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: rgba(176, 255, 236, 0.1);
+            border: 1px solid rgba(176, 255, 236, 0.3);
+            border-radius: 8px; // Rounded inventory items
+            
+            .label {
+              color: #b0ffec;
+              font-size: 14px;
+              font-family: 'MEKSans-Regular', monospace;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+            
+            .value {
+              color: #fff;
+              font-size: 16px;
+              font-weight: bold;
+              font-family: 'MEKSans-Regular', monospace;
+            }
+          }
+        }
+      }
+      
+      .action-buttons {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        
+        .purchase-btn {
+          background: linear-gradient(45deg, #ff6b35, #ff8c42);
+          border: 2px solid #ff6b35;
+          color: #fff;
+          padding: 15px 40px;
+          border-radius: 8px; // Rounded purchase button
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          box-shadow: 
+            0 0 0 2px #000,
+            0 0 0 4px #ff6b35;
+          min-width: 250px;
+          
+          &:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 
+              0 0 0 2px #000,
+              0 0 0 4px #ff8c42,
+              0 8px 25px rgba(255, 107, 53, 0.4);
+          }
+          
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+        }
+        
+        .clear-btn {
+          background: rgba(176, 255, 236, 0.2);
+          border: 2px solid #b0ffec;
+          color: #b0ffec;
+          padding: 10px 25px;
+          border-radius: 8px;
+          font-size: 14px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          min-width: 150px;
+          
+          &:hover:not(:disabled) {
+            background: rgba(176, 255, 236, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 2px #b0ffec;
+          }
+          
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+    
+    .error-message {
+      background: rgba(255, 107, 53, 0.1);
+      border: 2px solid #ff6b35;
+      color: #ff6b35;
+      padding: 20px;
+      border-radius: 8px; // Rounded error message
+      text-align: center;
+      font-size: 16px;
+      font-family: 'MEKSans-Regular', monospace;
+      
+      .error-icon {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+    }
+    
+    .success-message {
+      background: rgba(76, 175, 80, 0.1);
+      border: 2px solid #4caf50;
+      color: #4caf50;
+      padding: 20px;
+      border-radius: 8px; // Rounded success message
+      text-align: center;
+      font-size: 16px;
+      font-family: 'MEKSans-Regular', monospace;
+      
+      .success-icon {
+        font-size: 20px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .custom-modal-content {
+    padding: 20px;
+    max-width: 100%;
+    
+    .modal-header h2 {
+      font-size: 24px;
+    }
+    
+    .tiers-grid {
+      grid-template-columns: 1fr; // Single column on mobile
+      gap: 20px;
+      
+      .tier-card {
+        min-height: auto;
+        padding: 20px;
+      }
+    }
+    
+    .inventory-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

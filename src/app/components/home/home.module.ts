@@ -16,6 +16,7 @@ import { BrickDetailsComponent } from '../popup/brick-details/brick-details.comp
 import { MintComponent } from '../popup/mint/mint.component';
 import { ShareReferralsComponent } from '../popup/share-referrals/share-referrals.component';
 import { HallOfFameComponent } from '../hall-of-fame/hall-of-fame.component';
+import { BulkBuyComponent } from '../popup/bulk-buy/bulk-buy.component';
 import { WalletService } from '../../services/wallet.service'; 
 
 
@@ -33,7 +34,8 @@ import { WalletService } from '../../services/wallet.service';
     DeliverableComponent,
     BrickDetailsComponent,
     MintComponent,
-    ShareReferralsComponent
+    ShareReferralsComponent,
+    BulkBuyComponent
   ],
   imports: [
     CommonModule,

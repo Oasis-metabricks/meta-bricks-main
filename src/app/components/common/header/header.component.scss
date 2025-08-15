@@ -1,0 +1,466 @@
+// Override global header styles with more specific selectors
+header.header-component {
+  background: rgba(52, 59, 230, 0.9); // Semi-transparent blue background matching nav buttons
+  border: 1px solid #b0ffec; // Thinner border for subtlety
+  border-radius: 0; // Pixelated
+  box-shadow: 
+    0 0 0 1px #000,
+    0 0 0 2px #b0ffec,
+    0 8px 32px rgba(176, 255, 236, 0.3); // Adjusted shadow for thinner border
+  position: relative;
+  z-index: 30;
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    padding: 20px 35px;
+    width: 100%;
+    
+    // Left: MetaBricks Title
+    .logo-text {
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 0 0 auto;
+      
+      &:hover {
+        transform: scale(1.05);
+        h1 {
+          color: #ffffff;
+          text-shadow: 
+            0 0 30px rgba(176, 255, 236, 1),
+            0 0 60px rgba(176, 255, 236, 0.8),
+            2px 2px 0px rgba(0, 0, 0, 0.8);
+        }
+      }
+      
+      h1 {
+        font-family: 'MEKSans-Regular', monospace;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #b0ffec;
+        margin: 0;
+        text-shadow: 
+          0 0 20px rgba(176, 255, 236, 0.8),
+          2px 2px 0px rgba(0, 0, 0, 0.8);
+        letter-spacing: 3px;
+        transition: all 0.3s ease;
+      }
+    }
+    
+    // Center: Brick Logo
+    .center-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin: 0 40px;
+      flex: 1;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+        
+        &::before {
+          background: radial-gradient(circle, rgba(176, 255, 236, 0.3) 0%, transparent 70%);
+          animation: backgroundGlow 2s ease-in-out infinite;
+        }
+      }
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        background: radial-gradient(circle, rgba(176, 255, 236, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: backgroundGlow 4s ease-in-out infinite;
+        z-index: -1;
+        transition: all 0.3s ease;
+      }
+      
+      img {
+        height: 60px;
+        width: auto;
+        transition: all 0.3s ease;
+        filter: drop-shadow(0 0 20px rgba(176, 255, 236, 0.8))
+                drop-shadow(0 0 40px rgba(176, 255, 236, 0.6))
+                drop-shadow(0 0 60px rgba(176, 255, 236, 0.4))
+                drop-shadow(0 0 80px rgba(176, 255, 236, 0.2));
+        animation: holyGlow 3s ease-in-out infinite;
+        
+        &:hover {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 30px rgba(176, 255, 236, 1))
+                  drop-shadow(0 0 60px rgba(176, 255, 236, 0.8))
+                  drop-shadow(0 0 90px rgba(176, 255, 236, 0.6))
+                  drop-shadow(0 0 120px rgba(176, 255, 236, 0.4))
+                  drop-shadow(0 0 150px rgba(176, 255, 236, 0.2));
+        }
+      }
+    }
+    
+    // Right: Desktop Connect Wallet and Navigation
+    .desktop-connect-wallet-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex: 0 0 auto;
+      margin-left: auto; // THIS IS THE KEY - pushes buttons to the right
+      
+              .desktop-connect-wallet-btn {
+          background: rgba(176, 255, 236, 0.2);
+          border: 2px solid #b0ffec;
+          color: #b0ffec;
+          padding: 12px 24px;
+          border-radius: 0;
+          font-size: 16px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          white-space: nowrap;
+        
+        &:hover {
+          background: rgba(176, 255, 236, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 
+            0 0 0 2px #000,
+            0 0 0 4px #b0ffec,
+            0 8px 20px rgba(176, 255, 236, 0.4);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
+      
+      // Desktop Navigation Buttons
+      .desktop-nav-buttons {
+        display: flex;
+        gap: 15px;
+        
+        .nav-btn {
+          background: rgba(176, 255, 236, 0.2);
+          border: 2px solid #b0ffec;
+          color: #b0ffec;
+          padding: 10px 20px;
+          border-radius: 0;
+          font-size: 14px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: 'MEKSans-Regular', monospace;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          white-space: nowrap;
+          text-decoration: none;
+          
+          &:hover {
+            background: rgba(176, 255, 236, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 
+              0 0 0 2px #000,
+              0 0 0 4px #b0ffec,
+              0 4px 16px rgba(176, 255, 236, 0.4);
+          }
+          
+          &:active {
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+    
+    // Mobile Connect Wallet Button Only
+    .mobile-connect-wallet-section {
+      display: none; // Hidden on desktop by default
+      align-items: center;
+      justify-content: flex-end;
+      flex: 0 0 auto;
+      
+      .mobile-connect-wallet-btn {
+        background: rgba(176, 255, 236, 0.2);
+        border: 2px solid #b0ffec;
+        color: #b0ffec;
+        padding: 8px 12px;
+        border-radius: 0;
+        font-size: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'MEKSans-Regular', monospace;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        
+        &:hover {
+          background: rgba(176, 255, 236, 0.3);
+          transform: translateY(-2px);
+          box-shadow: 
+            0 0 0 2px #000,
+            0 0 0 4px #b0ffec,
+            0 4px 16px rgba(176, 255, 236, 0.4);
+        }
+        
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+// Holy Glow Animation
+@keyframes holyGlow {
+  0% {
+    filter: drop-shadow(0 0 20px rgba(176, 255, 236, 0.8))
+            drop-shadow(0 0 40px rgba(176, 255, 236, 0.6))
+            drop-shadow(0 0 60px rgba(176, 255, 236, 0.4))
+            drop-shadow(0 0 80px rgba(176, 255, 236, 0.2));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(176, 255, 236, 1))
+            drop-shadow(0 0 60px rgba(176, 255, 236, 0.8))
+            drop-shadow(0 0 90px rgba(176, 255, 236, 0.6))
+            drop-shadow(0 0 120px rgba(176, 255, 236, 0.4))
+            drop-shadow(0 0 150px rgba(176, 255, 236, 0.2));
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(176, 255, 236, 0.8))
+            drop-shadow(0 0 40px rgba(176, 255, 236, 0.6))
+            drop-shadow(0 0 60px rgba(176, 255, 236, 0.4))
+            drop-shadow(0 0 80px rgba(176, 255, 236, 0.2));
+  }
+}
+
+// Background Glow Animation
+@keyframes backgroundGlow {
+  0% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+// Hamburger Menu - Only for Mobile
+.hamburger-menu {
+  display: none; // Hidden on desktop by default
+  position: fixed;
+  top: 100px; // Position below header
+  right: 20px;
+  z-index: 30;
+  
+  .hamburger-toggle {
+    width: 50px;
+    height: 50px;
+    background: rgba(176, 255, 236, 0.9);
+    border: 2px solid #b0ffec;
+    border-radius: 0; // Pixelated
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 4px 16px rgba(176, 255, 236, 0.6);
+    
+    &:hover {
+      background: rgba(176, 255, 236, 1);
+      transform: scale(1.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    .hamburger-line {
+      width: 20px;
+      height: 3px;
+      background: #343BE6;
+      border-radius: 0;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .hamburger-content {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: rgba(52, 59, 230, 0.95);
+    border: 2px solid #b0ffec;
+    border-radius: 0; // Pixelated
+    padding: 15px;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 8px 32px rgba(176, 255, 236, 0.3);
+    
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .hamburger-nav-btn {
+      display: block;
+      width: 100%;
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      color: #b0ffec;
+      padding: 10px 15px;
+      border-radius: 0; // Pixelated
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'MEKSans-Regular', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-align: left;
+      text-decoration: none;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        transform: translateX(5px);
+        box-shadow: 
+          0 0 0 2px #000,
+          0 0 0 4px #b0ffec,
+          0 4px 16px rgba(176, 255, 236, 0.4);
+      }
+      
+      &:active {
+        transform: translateX(2px);
+      }
+    }
+  }
+}
+
+// Desktop - Hide hamburger menu
+@media (min-width: 769px) {
+  .hamburger-menu {
+    display: none !important;
+  }
+}
+
+// Mobile Responsive Design
+@media (max-width: 768px) {
+  header.header-component {
+    background: transparent; // Remove background on mobile
+    border: none; // Remove border on mobile
+    box-shadow: none; // Remove shadow on mobile
+    
+    .header-content {
+      padding: 8px 15px;
+      gap: 10px;
+      min-height: 50px; // Increased to accommodate larger logo
+      max-height: 50px;
+      
+      .logo-text {
+        flex: 0 0 auto; // Keep consistent with desktop
+        
+        h1 {
+          font-size: 1.8rem; // Increased from 1rem
+          letter-spacing: 1px;
+        }
+      }
+      
+      .center-logo {
+        flex: 0 0 auto; // Keep consistent with desktop
+        margin: 0 20px; // Reduce margin on mobile
+        
+        img {
+          height: 35px; // Increased from 20px
+        }
+      }
+      
+      // Hide desktop buttons on mobile
+      .desktop-connect-wallet-section {
+        display: none !important; // Hide desktop buttons completely on mobile
+      }
+      
+      // Show mobile connect wallet button
+      .mobile-connect-wallet-section {
+        display: flex !important; // Show on mobile
+        align-items: center;
+        justify-content: flex-end;
+        flex: 0 0 auto;
+        margin-right: 10px; // Move button slightly to the left
+        
+        .mobile-connect-wallet-btn {
+          padding: 8px 12px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  
+  .hamburger-menu {
+    display: block; // Show on mobile
+    top: 70px; // Adjust for smaller header on mobile
+    right: 15px;
+    
+    .hamburger-toggle {
+      width: 40px; // Smaller on mobile
+      height: 40px;
+      
+      .hamburger-line {
+        width: 18px;
+        height: 2px;
+      }
+    }
+    
+    .hamburger-content {
+      top: 50px; // Adjust for smaller toggle
+      right: 0;
+      min-width: 180px; // Slightly smaller on mobile
+      
+      .hamburger-nav-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+// Tablet Responsive Design
+@media (min-width: 769px) and (max-width: 1024px) {
+  header {
+    padding: 25px 30px;
+    
+    .logo-text h1 {
+      font-size: 1.8rem;
+    }
+    
+    .right-section .connect-wallet-btn {
+      padding: 11px 22px;
+      font-size: 15px;
+    }
+  }
+}

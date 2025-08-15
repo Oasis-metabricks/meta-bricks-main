@@ -1,22 +1,69 @@
-<div class="middle-container">
-    <div class="middle-content">
-        <div class="bricks-container">
-            <!-- Adding the offset conditionally based on the brick's properties -->
-            <div *ngFor="let brick of allBricks"
-                 class="single-brick"
-                 [class.offset]="brick.offset"
-                 [class.minted-brick]="!brick.metadataUri || isMinted(brick)"
-                 [class.exploding]="brick.exploding"
-                 (click)="brick.metadataUri && !isMinted(brick) ? openBrickModal(brick) : null">
-                <div class="brick-inner">
-                    <ng-container *ngIf="brick.metadataUri && !isMinted(brick)">
-                        {{ brick.seriesNumber }}
-                    </ng-container>
-                    <div class="particles" *ngIf="brick.exploding">
-                        <div class="particle" *ngFor="let p of [0,1,2,3,4,5,6,7]"></div>
-                    </div>
+<div class="landing-container">
+    <!-- Navigation Box - Below Header -->
+    <div class="nav-box" [class.right-side]="isNavOnRightSide">
+        <div class="nav-box-content">
+            <button class="nav-box-btn" (click)="openModal('what')">What</button>
+            <button class="nav-box-btn" (click)="openModal('how')">How</button>
+            <button class="nav-box-btn" (click)="openModal('whitepaper')">Whitepaper</button>
+            <button class="nav-box-btn" (click)="openModal('deliverable')">Deliverables</button>
+        </div>
+        <button class="nav-move-arrow" (click)="toggleNavPosition()">
+            {{ isNavOnRightSide ? '←' : '→' }}
+        </button>
+    </div>
+
+    <!-- Brick Count Display - Bottom Right Over Bricks -->
+    <div class="brick-count-overlay" [class.left-side]="isCountOnLeftSide">
+        <div class="brick-count-box">
+            <div class="count-item">
+                <span class="count-label">Destroyed:</span>
+                <span class="count-value">x{{destroyedCount}}</span>
+            </div>
+            <div class="count-item">
+                <span class="count-label">Remaining:</span>
+                <span class="count-value">x{{leftCount}}</span>
+            </div>
+            <button class="move-arrow" (click)="toggleCountPosition()">
+                {{ isCountOnLeftSide ? '→' : '←' }}
+            </button>
+            <button class="refresh-btn" (click)="forceRefresh()" title="Refresh brick data">
+                🔄
+            </button>
+        </div>
+    </div>
+
+    <div class="bricks-container">
+        <!-- Adding the offset conditionally based on the brick's properties -->
+        <div *ngFor="let brick of allBricks"
+             class="single-brick"
+             [class.offset]="brick.offset"
+             [class.minted-brick]="!brick.metadataUri || isMinted(brick)"
+             [class.exploding]="brick.exploding"
+             (click)="brick.metadataUri && !isMinted(brick) ? openBrickModal(brick) : null">
+            <div class="brick-inner">
+                <ng-container *ngIf="brick.metadataUri && !isMinted(brick)">
+                    {{ brick.seriesNumber }}
+                </ng-container>
+                <div class="particles" *ngIf="brick.exploding">
+                    <div class="particle" *ngFor="let p of [0,1,2,3,4,5,6,7]"></div>
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Hamburger Menu - Bottom Left -->
+    <div class="mobile-hamburger-menu">
+        <button class="hamburger-toggle" (click)="toggleHamburgerMenu()">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        
+        <div class="hamburger-content" [class.open]="isHamburgerOpen">
+            <button class="hamburger-nav-btn" (click)="openModal('what')">What</button>
+            <button class="hamburger-nav-btn" (click)="openModal('how')">How</button>
+            <button class="hamburger-nav-btn" (click)="openModal('whitepaper')">Whitepaper</button>
+            <button class="hamburger-nav-btn" (click)="openModal('deliverable')">Deliverables</button>
         </div>
     </div>
 </div>

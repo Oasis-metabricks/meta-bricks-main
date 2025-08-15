@@ -1,11 +1,262 @@
+
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #343BE6;
+  padding: 20px;
+  position: relative;
+}
+
+// Brick Count Overlay - Bottom Right/Left Over Bricks
+.brick-count-overlay {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  transition: all 0.3s ease;
+  
+  // Left side positioning
+  &.left-side {
+    right: auto;
+    left: 20px;
+  }
+  
+  .brick-count-box {
+    background: rgba(52, 59, 230, 0.9);
+    border: 2px solid #b0ffec;
+    border-radius: 0;
+    padding: 15px;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 8px 32px rgba(176, 255, 236, 0.3);
+    
+    .count-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      color: #b0ffec;
+      font-family: 'MEKSans-Regular', monospace;
+      font-size: 14px;
+      font-weight: bold;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      .count-label {
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      .count-value {
+        color: #fff;
+        font-size: 16px;
+        margin-left: 15px;
+      }
+    }
+    
+    .move-arrow {
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      border-radius: 0;
+      color: #b0ffec;
+      padding: 8px 12px;
+      margin-top: 10px;
+      margin-right: 8px;
+      cursor: pointer;
+      font-family: 'MEKSans-Regular', monospace;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        box-shadow: 0 0 0 2px #b0ffec;
+      }
+    }
+    
+    .refresh-btn {
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      border-radius: 0;
+      color: #b0ffec;
+      padding: 8px 12px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        box-shadow: 0 0 0 2px #b0ffec;
+      }
+    }
+  }
+}
+
+// Navigation Box - Below Header
+.nav-box {
+  position: absolute;
+  top: 120px; // Position below header
+  left: 20px;
+  z-index: 20;
+  transition: all 0.3s ease;
+  
+  // Right side positioning
+  &.right-side {
+    left: auto;
+    right: 20px;
+  }
+  
+  .nav-box-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(52, 59, 230, 0.9);
+    border: 2px solid #b0ffec;
+    border-radius: 0;
+    padding: 20px;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 8px 32px rgba(176, 255, 236, 0.3);
+    
+    .nav-box-btn {
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      color: #b0ffec;
+      padding: 12px 24px;
+      border-radius: 0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'MEKSans-Regular', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 
+          0 0 0 2px #000,
+          0 0 0 4px #b0ffec,
+          0 8px 20px rgba(176, 255, 236, 0.4);
+      }
+      
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  .nav-move-arrow {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 30px;
+    height: 30px;
+    background: rgba(176, 255, 236, 0.9);
+    border: 2px solid #b0ffec;
+    border-radius: 0;
+    color: #343BE6;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-family: 'MEKSans-Regular', monospace;
+    
+    &:hover {
+      background: rgba(176, 255, 236, 1);
+      transform: scale(1.1);
+      box-shadow: 
+        0 0 0 2px #000,
+        0 0 0 4px #b0ffec,
+        0 4px 16px rgba(176, 255, 236, 0.6);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Bricks Container
+.bricks-container {
+  display: grid;
+  grid-template-columns: repeat(18, 66px); // Restored to original 66px
+  grid-auto-rows: 25px; // Restored to original 25px
+  justify-content: center;
+  gap: 3px; // Restored to original 3px
+  padding: 0 20px;
+  margin-top: 10px; // Reduced top margin to minimize gap between navbar and bricks
+  position: relative;
+  z-index: 1;
+}
+
+// Single Brick
+.single-brick {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 62px; // Restored to original 62px
+  height: 23px; // Restored to original 23px
+  border-radius: 3px;
+  border: 1px solid #343BE6;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    border-color: #B0FFEC;
+    transform: scale(1.05);
+    transition: all 0.2s ease;
+  }
+}
+
+.offset {
+  margin-left: 32px;
+}
+
+.brick-inner {
+  width: 100%;
+  height: 100%;
+  background-color: #B0FFEC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #343BE6;
+  font-size: 12px; // Restored to original size
+  font-weight: bold;
+  font-family: 'MEKSans-Regular', monospace;
+}
+
+// Minted Brick Styling
 .minted-brick {
-  background: #00010C; /* Match your wall background */
+  background: #00010C;
   border: none;
   cursor: default;
   opacity: 0.1;
   pointer-events: none;
+  
+  .brick-inner {
+    background-color: #00010C;
+    color: #666;
+  }
 }
 
+// Exploding Animation
 .exploding .brick-inner {
   animation: explode-brick 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   z-index: 2;
@@ -30,6 +281,7 @@
   }
 }
 
+// Particles
 .particles {
   position: absolute;
   top: 50%;
@@ -69,5 +321,228 @@
   100% {
     transform: scale(2.5) translateY(-120px);
     opacity: 0;
+  }
+}
+
+
+
+// Mobile Responsive Design
+@media (max-width: 768px) {
+  .landing-container {
+    padding: 5px !important;
+    min-height: calc(100vh - 50px) !important; // Account for larger header (50px)
+    margin-top: 0 !important;
+    display: block !important;
+    overflow-x: auto !important; // Enable horizontal scrolling
+    overflow-y: hidden !important; // Prevent vertical scrolling
+    width: 100% !important;
+    background: rgba(255, 0, 0, 0.1) !important; // Debug: red tint to see container
+  }
+  
+  // Hide desktop navigation box on mobile
+  .nav-box {
+    display: none !important;
+  }
+  
+  // Show mobile hamburger menu
+  .mobile-hamburger-menu {
+    display: block !important;
+  }
+  
+  .bricks-container {
+    display: grid !important;
+    grid-template-columns: repeat(18, 58px) !important; // Keep smaller 18 columns
+    grid-auto-rows: 22px !important; // Keep smaller row height
+    gap: 2px !important; // Keep smaller gap
+    padding: 2px !important;
+    margin-top: 0 !important; // Start immediately below header
+    position: relative !important;
+    z-index: 1 !important;
+    width: max-content !important; // Allow container to expand to fit all bricks
+    min-width: 100% !important; // Ensure it takes at least full width
+    justify-content: flex-start !important; // Align to left for scrolling
+    transform: none !important;
+    max-width: none !important;
+    background: rgba(0, 255, 0, 0.1) !important; // Debug: green tint to see grid
+  }
+  
+  .single-brick {
+    display: flex !important;
+    width: 54px !important; // Keep smaller brick width
+    height: 20px !important; // Keep smaller brick height
+    min-height: 20px !important;
+    max-width: 54px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-shrink: 0 !important;
+    background: rgba(0, 0, 255, 0.1) !important; // Debug: blue tint to see bricks
+    
+    .brick-inner {
+      font-size: 9px !important; // Slightly smaller font for smaller bricks
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+  
+  .offset {
+    margin-left: 32px !important; // Keep original offset
+  }
+}
+
+// Extra Small Mobile Devices
+@media (max-width: 480px) {
+  .landing-container {
+    padding: 3px;
+    min-height: calc(100vh - 50px); // Account for larger header (50px)
+    display: block !important;
+    overflow-x: auto; // Enable horizontal scrolling
+    overflow-y: hidden; // Prevent vertical scrolling
+  }
+  
+  // Hide desktop navigation box on mobile
+  .nav-box {
+    display: none !important;
+  }
+  
+  .bricks-container {
+    display: grid !important;
+    grid-template-columns: repeat(18, 58px) !important; // Keep smaller 18 columns
+    grid-auto-rows: 22px !important; // Keep smaller row height
+    gap: 2px !important; // Keep smaller gap
+    padding: 1px;
+    position: relative;
+    z-index: 1;
+    width: max-content; // Allow container to expand to fit all bricks
+    min-width: 100%; // Ensure it takes at least full width
+    justify-content: flex-start; // Align to left for scrolling
+  }
+  
+  .single-brick {
+    display: flex !important;
+    width: 54px; // Keep smaller brick width
+    height: 20px; // Keep smaller brick height
+    min-height: 20px;
+    visibility: visible !important;
+    opacity: 1 !important;
+    
+    .brick-inner {
+      font-size: 9px; // Slightly smaller font for smaller bricks
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+  }
+  
+  .offset {
+    margin-left: 32px; // Keep original offset
+  }
+}
+
+// Mobile Hamburger Menu
+.mobile-hamburger-menu {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 30;
+  display: none; // Hidden by default, shown only on mobile
+  
+  .hamburger-toggle {
+    width: 50px;
+    height: 50px;
+    background: rgba(176, 255, 236, 0.9);
+    border: 2px solid #b0ffec;
+    border-radius: 0; // Pixelated
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 4px 16px rgba(176, 255, 236, 0.6);
+    
+    &:hover {
+      background: rgba(176, 255, 236, 1);
+      transform: scale(1.1);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    .hamburger-line {
+      width: 20px;
+      height: 3px;
+      background: #343BE6;
+      border-radius: 0;
+      transition: all 0.3s ease;
+    }
+  }
+  
+  .hamburger-content {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    background: rgba(52, 59, 230, 0.95);
+    border: 2px solid #b0ffec;
+    border-radius: 0; // Pixelated
+    padding: 15px;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    box-shadow: 
+      0 0 0 2px #000,
+      0 0 0 4px #b0ffec,
+      0 8px 32px rgba(176, 255, 236, 0.3);
+    
+    &.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .hamburger-nav-btn {
+      display: block;
+      width: 100%;
+      background: rgba(176, 255, 236, 0.2);
+      border: 2px solid #b0ffec;
+      color: #b0ffec;
+      padding: 10px 15px;
+      border-radius: 0; // Pixelated
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'MEKSans-Regular', monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-align: left;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      &:hover {
+        background: rgba(176, 255, 236, 0.3);
+        transform: translateX(5px);
+        box-shadow: 
+          0 0 0 2px #000,
+          0 0 0 4px #b0ffec,
+          0 4px 16px rgba(176, 255, 236, 0.4);
+      }
+      
+      &:active {
+        transform: translateX(2px);
+      }
+    }
   }
 }
