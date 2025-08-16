@@ -1,166 +1,164 @@
-<div class="modal-body">
-  <div class="custom-modal-content">
-    <div class="modal-header">
-      <h2>Bulk Buy MetaBricks</h2>
-      <button class="close-btn" (click)="closeModal()">×</button>
+<div class="bulk-buy-modal">
+  <div class="modal-header">
+    <h2>🚀 Bulk Buy MetaBricks</h2>
+    <button class="close-btn" (click)="closeModal()">×</button>
+  </div>
+  
+  <div class="modal-content">
+    <div *ngIf="isLoading" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Loading bulk buy options...</p>
     </div>
     
-    <div class="modal-body">
-      <div *ngIf="isLoading" class="loading">
-        <div class="loading-spinner"></div>
-        <p>Loading bulk buy options...</p>
-      </div>
-      
-      <div *ngIf="!isLoading && !errorMessage" class="bulk-buy-content">
-        <!-- Tier Selection -->
-        <div class="tier-selection">
-          <h3>Choose Your Pack</h3>
-          
-          <!-- Conversion Copy -->
-          <div class="conversion-copy">
-            <div class="copy-title">🚀 LIMITED TIME OFFER</div>
-            <div class="copy-text">
-              Join the MetaBricks revolution! Each pack guarantees rare Industrial and Legendary bricks. 
-              The more you buy, the bigger the savings. Don't miss out on these exclusive discounts!
-            </div>
-          </div>
-          
-          <div class="tiers-grid">
-            <div *ngFor="let tier of bulkBuyTiers; trackBy: trackByTier"
-                 class="tier-card"
-                 [class.selected]="selectedTier?.name === tier.name"
-                 [class.popular]="tier.popular"
-                 [class.premium]="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'"
-                 (click)="selectTier(tier)">
-              
-              <!-- Popular Badge -->
-              <div *ngIf="tier.popular" class="popular-badge">
-                <span>🔥 MOST POPULAR</span>
-              </div>
-              
-              <!-- Premium Badge -->
-              <div *ngIf="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'" class="premium-badge">
-                <span>⭐ PREMIUM</span>
-              </div>
-              
-              <div class="tier-header">
-                <h4>{{ tier.name }}</h4>
-                <p class="tier-description">{{ tier.guarantee }}</p>
-              </div>
-              
-              <div class="tier-pricing">
-                <div class="price-display">
-                  <span class="original-price">${{ tier.originalPrice }}</span>
-                  <span class="discounted-price">${{ tier.discountedPrice }}</span>
-                  <span class="discount-tag">-{{ tier.discount }}%</span>
-                </div>
-                <div class="savings-highlight">
-                  Save ${{ tier.savings }}!
-                </div>
-              </div>
-              
-              <div class="tier-details">
-                <div class="detail-item">
-                  <span class="label">Quantity:</span>
-                  <span class="value">{{ tier.quantity }} Bricks</span>
-                </div>
-                <div class="detail-item">
-                  <span class="label">Guaranteed Industrial:</span>
-                  <span class="value">{{ tier.guaranteedIndustrial }}</span>
-                </div>
-                <div class="detail-item" *ngIf="tier.guaranteedLegendary > 0">
-                  <span class="label">Guaranteed Legendary:</span>
-                  <span class="value">{{ tier.guaranteedLegendary }}</span>
-                </div>
-                <div class="detail-item" *ngIf="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'">
-                  <span class="label">Hall of Fame:</span>
-                  <span class="value">Permanent Induction</span>
-                </div>
-              </div>
-              
-              <div class="tier-cta">
-                <button class="select-tier-btn" 
-                        [class.selected]="selectedTier?.name === tier.name"
-                        (click)="selectTier(tier)">
-                  {{ selectedTier?.name === tier.name ? '✓ Selected' : 'Select Pack' }}
-                </button>
-              </div>
-            </div>
+    <div *ngIf="!isLoading && !errorMessage" class="bulk-buy-content">
+      <!-- Tier Selection -->
+      <div class="tier-selection">
+        <h3>🎯 Choose Your Pack</h3>
+        
+        <!-- Conversion Copy -->
+        <div class="conversion-copy">
+          <div class="copy-title">🔥 LIMITED TIME OFFER</div>
+          <div class="copy-text">
+            Join the MetaBricks revolution! Each pack guarantees rare Industrial and Legendary bricks. 
+            The more you buy, the bigger the savings. Don't miss out on these exclusive discounts!
           </div>
         </div>
         
-        <!-- Selection Summary -->
-        <div *ngIf="selectedTier" class="selection-summary">
-          <h3>Selected Pack: {{ selectedTier.name }}</h3>
-          <div class="summary-details">
-            <div class="summary-item">
-              <span class="label">Total Price:</span>
-              <span class="value">${{ selectedTier.discountedPrice }}</span>
+        <div class="tiers-grid">
+          <div *ngFor="let tier of bulkBuyTiers; trackBy: trackByTier"
+               class="tier-card"
+               [class.selected]="selectedTier?.name === tier.name"
+               [class.popular]="tier.popular"
+               [class.premium]="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'"
+               (click)="selectTier(tier)">
+            
+            <!-- Popular Badge -->
+            <div *ngIf="tier.popular" class="popular-badge">
+              <span>🔥 MOST POPULAR</span>
             </div>
-            <div class="summary-item">
-              <span class="label">You Save:</span>
-              <span class="value savings">${{ selectedTier.savings }} ({{ selectedTier.discount }}%)</span>
+            
+            <!-- Premium Badge -->
+            <div *ngIf="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'" class="premium-badge">
+              <span>⭐ PREMIUM</span>
             </div>
-            <div class="summary-item">
-              <span class="label">Bricks Included:</span>
-              <span class="value">{{ selectedTier.quantity }} Total</span>
+            
+            <div class="tier-header">
+              <h4>{{ tier.name }}</h4>
+              <p class="tier-description">{{ tier.guarantee }}</p>
+            </div>
+            
+            <div class="tier-pricing">
+              <div class="price-display">
+                <span class="original-price">${{ tier.originalPrice }}</span>
+                <span class="discounted-price">${{ tier.discountedPrice }}</span>
+                <span class="discount-tag">-{{ tier.discount }}%</span>
+              </div>
+              <div class="savings-highlight">
+                💰 Save ${{ tier.savings }}!
+              </div>
+            </div>
+            
+            <div class="tier-details">
+              <div class="detail-item">
+                <span class="label">📦 Quantity:</span>
+                <span class="value">{{ tier.quantity }} Bricks</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">🏭 Guaranteed Industrial:</span>
+                <span class="value">{{ tier.guaranteedIndustrial }}</span>
+              </div>
+              <div class="detail-item" *ngIf="tier.guaranteedLegendary > 0">
+                <span class="label">👑 Guaranteed Legendary:</span>
+                <span class="value">{{ tier.guaranteedLegendary }}</span>
+              </div>
+              <div class="detail-item" *ngIf="tier.name === 'Whale Pack' || tier.name === 'MetaBricks Master'">
+                <span class="label">🏆 Hall of Fame:</span>
+                <span class="value">Permanent Induction</span>
+              </div>
+            </div>
+            
+            <div class="tier-cta">
+              <button class="select-tier-btn" 
+                      [class.selected]="selectedTier?.name === tier.name"
+                      (click)="selectTier(tier)">
+                {{ selectedTier?.name === tier.name ? '✓ Selected' : 'Select Pack' }}
+              </button>
             </div>
           </div>
         </div>
-        
-        <!-- Inventory Status -->
-        <div *ngIf="inventory" class="inventory-status">
-          <h3>Current Inventory Status</h3>
-          <div class="inventory-grid">
-            <div class="inventory-item">
-              <span class="label">Total Bricks:</span>
-              <span class="value">{{ inventory.totalBricks }}</span>
-            </div>
-            <div class="inventory-item">
-              <span class="label">Remaining:</span>
-              <span class="value">{{ inventory.remainingBricks }}</span>
-            </div>
-            <div class="inventory-item">
-              <span class="label">Industrial:</span>
-              <span class="value">{{ inventory.industrialBricks }} ({{ inventory.reservedIndustrial }} reserved)</span>
-            </div>
-            <div class="inventory-item">
-              <span class="label">Legendary:</span>
-              <span class="value">{{ inventory.legendaryBricks }} ({{ inventory.reservedLegendary }} reserved)</span>
-            </div>
+      </div>
+      
+      <!-- Selection Summary -->
+      <div *ngIf="selectedTier" class="selection-summary">
+        <h3>✅ Selected Pack: {{ selectedTier.name }}</h3>
+        <div class="summary-details">
+          <div class="summary-item">
+            <span class="label">💰 Total Price:</span>
+            <span class="value">${{ selectedTier.discountedPrice }}</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">🎉 You Save:</span>
+            <span class="value savings">${{ selectedTier.savings }} ({{ selectedTier.discount }}%)</span>
+          </div>
+          <div class="summary-item">
+            <span class="label">📦 Bricks Included:</span>
+            <span class="value">{{ selectedTier.quantity }} Total</span>
           </div>
         </div>
-        
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-          <button *ngIf="selectedTier" 
-                  class="button primary purchase-btn" 
-                  (click)="proceedToPurchase()"
-                  [disabled]="isLoading">
-            <span *ngIf="!isLoading">🚀 Purchase {{ selectedTier.name }}</span>
-            <span *ngIf="isLoading">Processing...</span>
-          </button>
-          
-          <button *ngIf="selectedTier" 
-                  class="button secondary clear-btn" 
-                  (click)="clearSelection()"
-                  [disabled]="isLoading">
-            Clear Selection
-          </button>
+      </div>
+      
+      <!-- Inventory Status -->
+      <div *ngIf="inventory" class="inventory-status">
+        <h3>📊 Current Inventory Status</h3>
+        <div class="inventory-grid">
+          <div class="inventory-item">
+            <span class="label">📦 Total Bricks:</span>
+            <span class="value">{{ inventory.totalBricks }}</span>
+          </div>
+          <div class="inventory-item">
+            <span class="label">🔄 Remaining:</span>
+            <span class="value">{{ inventory.remainingBricks }}</span>
+          </div>
+          <div class="inventory-item">
+            <span class="label">🏭 Industrial:</span>
+            <span class="value">{{ inventory.industrialBricks }} ({{ inventory.reservedIndustrial }} reserved)</span>
+          </div>
+          <div class="inventory-item">
+            <span class="label">👑 Legendary:</span>
+            <span class="value">{{ inventory.legendaryBricks }} ({{ inventory.reservedLegendary }} reserved)</span>
+          </div>
         </div>
       </div>
       
-      <!-- Error Message -->
-      <div *ngIf="errorMessage" class="error-message">
-        <span class="error-icon">⚠️</span>
-        {{ errorMessage }}
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button *ngIf="selectedTier" 
+                class="button primary purchase-btn" 
+                (click)="proceedToPurchase()"
+                [disabled]="isLoading">
+          <span *ngIf="!isLoading">🚀 Purchase {{ selectedTier.name }}</span>
+          <span *ngIf="isLoading">⏳ Processing...</span>
+        </button>
+        
+        <button *ngIf="selectedTier" 
+                class="button secondary clear-btn" 
+                (click)="clearSelection()"
+                [disabled]="isLoading">
+          🔄 Clear Selection
+        </button>
       </div>
-      
-      <!-- Success Message -->
-      <div *ngIf="successMessage" class="success-message">
-        <span class="success-icon">🎉</span>
-        {{ successMessage }}
-      </div>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      <span class="error-icon">⚠️</span>
+      {{ errorMessage }}
+    </div>
+    
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      <span class="success-icon">🎉</span>
+      {{ successMessage }}
     </div>
   </div>
 </div>
