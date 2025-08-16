@@ -1,18 +1,24 @@
 <div class="modal-body mint-modal">
     <div class="custom-modal-header">
-        <div class="back-btn" (click)="goBack()" style="position: absolute; top: 24px; left: 24px; cursor: pointer; font-size: 1.2rem; z-index: 10;">&lt; Back</div>
+        <div class="back-btn" (click)="modalRef?.hide()" style="position: absolute; top: 24px; left: 24px; cursor: pointer; font-size: 1.2rem; z-index: 10;">&lt; Back</div>
         <p>MINT</p>
     </div>
     <div class="custom-modal-content">
         <h2 class="main-question">Monster. You sure you want to destroy this innocent brick?</h2>
-        <div class="payment-method-choice">
-            <button class="button" [class.selected]="selectedPayment === 'phantom'" (click)="selectPayment('phantom')">Pay with Phantom</button>
-            <button class="button" [class.selected]="selectedPayment === 'stripe'" (click)="selectPayment('stripe')">Pay with Stripe</button>
+        <div class="brick-info" *ngIf="brick">
+            <p class="brick-details">
+                <strong>Brick:</strong> {{ brick.brickNumber || 'Brick #' + brick.id }}<br>
+                <strong>Price:</strong> {{ brick.mintPrice || '0.4 SOL' }}<br>
+                <strong>Position:</strong> {{ brick.position || 'Unknown' }}
+            </p>
+        </div>
+        <div class="mint-notice">
+            <p>🎨 This will mint a unique MetaBrick NFT with randomized perks!</p>
+            <p>💰 Payment: 0.4 SOL via Phantom wallet</p>
         </div>
     </div>
     <div class="buttons-list">
-        <button class="button" *ngIf="selectedPayment === 'phantom'" (click)="mintBrick()">Mint with Phantom</button>
-        <button class="button" *ngIf="selectedPayment === 'stripe'" (click)="mintWithStripe()">Mint with Stripe</button>
-        <button class="button">No</button>
+        <button class="button primary" (click)="mintBrick()">🎨 Mint NFT with Phantom</button>
+        <button class="button secondary" (click)="modalRef?.hide()">Cancel</button>
     </div>
 </div>
