@@ -50,18 +50,18 @@ export class HeaderComponent implements OnInit {
           return;
         }
         
-        // Desktop flow
-        console.log('Phantom state after connect:', window.solana);
-
-        if (window.solana && window.solana.isConnected && window.solana.publicKey) {
-          this.walletAddress = window.solana.publicKey.toString();
+        // Desktop flow - use the response directly from wallet service
+        console.log('Wallet connection response:', res);
+        
+        if (res && res.publicKey) {
+          this.walletAddress = res.publicKey.toString();
           this.cdr.detectChanges();
+          console.log('Wallet connected successfully:', this.walletAddress);
         } else {
           this.walletAddress = null;
+          console.error('No public key in response:', res);
           alert('Failed to connect to Phantom. Please try again.');
         }
-        const targetElement = this.renderer.selectRootElement('#target-element', true);
-        this.renderer.setStyle(targetElement, 'color', 'green');
       }).catch(err => {
         console.error('Error connecting wallet', err);
         alert('Error connecting to Phantom wallet.');

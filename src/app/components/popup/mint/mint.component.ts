@@ -1,171 +1,181 @@
 // src/app/components/mint/mint.component.ts
 (window as any).Buffer = (window as any).Buffer || require('buffer').Buffer;
-import { Component } from '@angular/core';
-import { WalletService } from '../../../services/wallet.service'; // Ensure the path is correct
-import { BrickEventsService } from '../../../services/brick-events.service';
-import { Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
-
+import { Component, Input, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
+import { WalletService } from '../../../services/wallet.service';
+import { BrickEventsService } from '../../../services/brick-events.service';
+import { NFTMintingService, NFTMintData } from '../../../services/nft-minting.service';
+import { BrickPerkService } from '../../../services/brick-perk.service';
 
-declare let window: any;
-
-const METABRICKS_WALLET = 'FXD4ebDGGDG3L345MD2DYRQ4rxhuswJFZ1o3EASsQxhS';
-const SOL_AMOUNT = 0.1; // Reduced from 1.79 for easier testing
 const SOLANA_RPC = 'https://api.devnet.solana.com';
+const METABRICKS_WALLET = 'FXD4ebDGGDG3L345MD2DYRQ4rxhuswJFZ1o3EASsQxhS';
+const SOL_AMOUNT = 0.4;
 
 @Component({
   selector: 'app-mint',
   templateUrl: './mint.component.html',
   styleUrls: ['./mint.component.scss']
 })
-export class MintComponent {
-  brick: any;
-  selectedPayment: 'phantom' | 'stripe' | null = null;
+export class MintComponent implements OnInit {
+  @Input() brick: any;
+  @Input() modalRef?: BsModalRef;
 
   constructor(
     private walletService: WalletService,
     private brickEvents: BrickEventsService,
-    public modalRef: BsModalRef
-  ) {}
+    private nftMintingService: NFTMintingService,
+    private brickPerkService: BrickPerkService
+  ) { }
 
-  goBack() {
-    this.modalRef.hide();
-  }
-
-  selectPayment(method: 'phantom' | 'stripe') {
-    this.selectedPayment = method;
-  }
-
-  async mintWithStripe() {
-    if (!this.brick || !this.brick.metadataUri) {
-      alert('Brick data is missing.');
-      return;
-    }
-    
-    // Check for wallet address (desktop or mobile)
-    let walletAddress = window.solana?.publicKey?.toString();
-    if (!walletAddress) {
-      // Check for mobile wallet
-      const walletInfo = localStorage.getItem('phantom_wallet_info');
-      if (walletInfo) {
-        try {
-          const parsed = JSON.parse(walletInfo);
-          walletAddress = parsed.publicKey;
-        } catch (e) {
-          console.error('Error parsing wallet info:', e);
-        }
-      }
-    }
-    
-    if (!walletAddress) {
-      alert('Please connect your wallet first.');
-      return;
-    }
-    try {
-      console.log('🔔 Creating Stripe checkout session for:', this.brick.metadataUri);
-      
-      const response = await fetch('https://metabricks-backend-api-66e7d2abb038.herokuapp.com/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ walletAddress, metadataUri: this.brick.metadataUri })
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status}: ${errorText}`);
-      }
-      
-      const data = await response.json();
-      console.log('✅ Stripe session created:', data);
-      
-      if (!data.checkoutUrl) {
-        throw new Error('No checkout URL received from backend');
-      }
-      
-      // Open Stripe checkout using the provided URL
-      console.log('🌐 Opening Stripe checkout:', data.checkoutUrl);
-      window.open(data.checkoutUrl, '_blank');
-      
-      // Start polling for payment status
-      this.checkPaymentStatus(data.id);
-      
-    } catch (err: any) {
-      console.error('❌ Stripe payment error:', err);
-      alert('Stripe payment failed: ' + (err.message || err));
-    }
+  ngOnInit(): void {
+    console.log('Mint component initialized with brick:', this.brick);
   }
 
   async mintBrick() {
-    // Check for wallet (desktop or mobile)
-    let provider = window.solana;
-    let walletAddress = window.solana?.publicKey?.toString();
-    
-    if (!walletAddress) {
-      // Check for mobile wallet
-      const walletInfo = localStorage.getItem('phantom_wallet_info');
-      if (walletInfo) {
-        try {
-          const parsed = JSON.parse(walletInfo);
-          walletAddress = parsed.publicKey;
-          // For mobile, we'll need to handle transactions differently
-          // For now, we'll show an alert that mobile Phantom transactions need special handling
-          alert('Mobile Phantom wallet detected. Please use desktop for Phantom transactions or use Stripe payment instead.');
-          return;
-        } catch (e) {
-          console.error('Error parsing wallet info:', e);
-        }
-      }
+    console.log('🎨 Starting brick minting process...', this.brick);
+
+    if (!this.brick) {
+      alert('No brick data available.');
+      return;
     }
-    
-    if (this.brick && this.brick.metadataUri && walletAddress) {
-      try {
-        // Step 1: Payment (desktop only for now)
-        if (!provider) {
-          alert('Please use desktop Phantom wallet for transactions or use Stripe payment instead.');
-          return;
-        }
-        const connection = new Connection(SOLANA_RPC);
-        const fromPubkey = new PublicKey(provider.publicKey.toString());
-        const toPubkey = new PublicKey(METABRICKS_WALLET);
-        const transaction = new Transaction().add(
-          SystemProgram.transfer({
-            fromPubkey,
-            toPubkey,
-            lamports: Math.round(SOL_AMOUNT * 1e9),
-          })
-        );
-        transaction.feePayer = fromPubkey;
-        const { blockhash } = await connection.getLatestBlockhash();
-        transaction.recentBlockhash = blockhash;
-        const signed = await provider.signTransaction(transaction);
-        const signature = await connection.sendRawTransaction(signed.serialize());
-        await connection.confirmTransaction(signature, 'confirmed');
-        alert('Payment successful! Transaction: ' + signature);
-        // Step 2: Mint NFT
-        this.walletService.mintNFTbackend({
-          walletAddress: provider.publicKey.toString(),
-          metadataUri: this.brick.metadataUri
-        }).subscribe({
-          next: (response) => {
-            console.log('Minting successful', response);
-            alert('Brick minted successfully!');
-            this.brickEvents.notifyMinted();
-          },
-          error: (error) => {
-            console.error('Error minting brick:', error);
-            alert('Failed to mint brick. Please try again.');
-          }
-        });
-      } catch (err: any) {
-        console.error('Payment or minting error:', err);
-        alert('Payment failed or cancelled: ' + (err.message || err));
+
+    // Get wallet provider (Phantom)
+    const provider = (window as any).solana;
+    if (!provider || !provider.isPhantom) {
+      alert('Please install Phantom wallet to mint bricks.');
+      return;
+    }
+
+    if (!provider.isConnected) {
+      alert('Please connect your Phantom wallet first.');
+      return;
+    }
+
+    try {
+      // Step 1: Generate brick metadata with perks
+      console.log('📝 Step 1: Generating brick metadata with perks...');
+      const brickId = this.brick.id || this.brick.brickNumber?.replace('Brick ', '') || 1;
+      const metadata = this.brickPerkService.generateBrickMetadata(brickId);
+      
+      if (!metadata) {
+        throw new Error('Failed to generate brick metadata');
       }
-    } else {
-      alert('Brick data or wallet is incomplete.');
+
+      console.log('✅ Brick metadata generated:', {
+        name: metadata.name,
+        type: metadata.hiddenMetadata.type,
+        rarity: metadata.hiddenMetadata.rarity,
+        perks: metadata.perks.length,
+        coreBenefits: metadata.coreBenefits
+      });
+
+      // Step 2: Show perks to user before payment
+      console.log('👀 Step 2: Showing perks to user...');
+      let perkMessage = `🎁 Your ${metadata.hiddenMetadata.type} brick includes:\n\n`;
+      metadata.perks.forEach((perk: any, index: number) => {
+        perkMessage += `${index + 1}. ${perk.name}\n`;
+      });
+      perkMessage += `\n💰 ${metadata.coreBenefits.tokenAirdrop} tokens + ${metadata.coreBenefits.tgeDiscount}% discount\n\n`;
+      perkMessage += `Proceed with payment?`;
+
+      if (!confirm(perkMessage)) {
+        console.log('User cancelled minting');
+        return;
+      }
+
+      // Step 3: Process payment
+      console.log('💳 Step 3: Processing payment...');
+      const connection = new Connection(SOLANA_RPC);
+      const fromPubkey = new PublicKey(provider.publicKey.toString());
+      const toPubkey = new PublicKey(METABRICKS_WALLET);
+      
+      let paymentSuccess = false;
+      let signature = '';
+      let attempts = 0;
+      const maxAttempts = 3;
+      
+      while (!paymentSuccess && attempts < maxAttempts) {
+        try {
+          attempts++;
+          console.log(`Payment attempt ${attempts}/${maxAttempts}...`);
+          
+          const transaction = new Transaction().add(
+            SystemProgram.transfer({
+              fromPubkey,
+              toPubkey,
+              lamports: Math.round(SOL_AMOUNT * 1e9),
+            })
+          );
+          
+          transaction.feePayer = fromPubkey;
+          
+          // Get fresh blockhash right before sending to avoid expiration
+          const { blockhash } = await connection.getLatestBlockhash('finalized');
+          transaction.recentBlockhash = blockhash;
+          
+          const signed = await provider.signTransaction(transaction);
+          signature = await connection.sendRawTransaction(signed.serialize());
+          await connection.confirmTransaction(signature, 'confirmed');
+          
+          paymentSuccess = true;
+          console.log('✅ Payment successful! Transaction:', signature);
+          
+        } catch (error: any) {
+          console.log(`Payment attempt ${attempts} failed:`, error.message);
+          
+          if (attempts >= maxAttempts) {
+            throw new Error(`Payment failed after ${maxAttempts} attempts: ${error.message}`);
+          }
+          
+          // Wait a bit before retrying
+          await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+      }
+      
+      alert(`Payment successful! Now minting your NFT...`);
+
+      // Step 4: Mint NFT using our new service
+      console.log('🎨 Step 4: Minting NFT...');
+      const mintData: NFTMintData = {
+        walletAddress: provider.publicKey.toString(),
+        brickId: brickId,
+        brickName: metadata.name
+      };
+
+      const mintResult = await this.nftMintingService.mintMetaBrickNFT(mintData, provider);
+
+      if (mintResult.success) {
+        console.log('🎉 NFT minting successful!', mintResult);
+        
+        // Show simplified success message
+        const successMessage = `🎉 MetaBrick NFT Minted Successfully!\n\n` +
+          `🧱 ${metadata.name}\n` +
+          `⭐ ${metadata.hiddenMetadata.type} (${metadata.hiddenMetadata.rarity})\n` +
+          `🎁 ${metadata.perks.length} perks included\n\n` +
+          `Your NFT is now in your wallet!`;
+
+        alert(successMessage);
+        
+        // Notify other components
+        this.brickEvents.notifyMinted();
+        
+        // Close modal if available
+        if (this.modalRef) {
+          this.modalRef.hide();
+        }
+
+      } else {
+        throw new Error(mintResult.error || 'Unknown minting error');
+      }
+
+    } catch (error: any) {
+      console.error('❌ Error during minting process:', error);
+      alert(`Minting failed: ${error.message}\n\nPlease try again or contact support.`);
     }
   }
 
-  // Check payment status by polling the backend
+  // Check payment status by polling the backend (keeping for Stripe payments)
   async checkPaymentStatus(sessionId: string) {
     let attempts = 0;
     const maxAttempts = 30; // Check for up to 1 minute (30 * 2 seconds)
