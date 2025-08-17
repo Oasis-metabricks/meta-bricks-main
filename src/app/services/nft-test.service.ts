@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NFTMintingService, NFTMintData } from './nft-minting.service';
+import { NftMintingService } from './nft-minting.service';
 import { BrickPerkService } from './brick-perk.service';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { BrickPerkService } from './brick-perk.service';
 export class NFTTestService {
 
   constructor(
-    private nftMintingService: NFTMintingService,
+    private nftMintingService: NftMintingService,
     private brickPerkService: BrickPerkService
   ) { }
 
@@ -43,45 +43,27 @@ export class NFTTestService {
         console.log(`  ${index + 1}. ${perk.name} (${perk.rarity}) - ${perk.description}`);
       });
 
-      // Step 3: Create mint data
-      console.log('📋 Step 3: Creating mint data...');
-      const mintData: NFTMintData = {
-        walletAddress: wallet.publicKey.toString(),
-        brickId: brickId,
-        brickName: metadata.name
-      };
+      // Step 3: Mint the NFT using the new simplified interface
+      console.log('🎨 Step 3: Minting NFT...');
+      const mintSignature = await this.nftMintingService.mintMetaBrickNFT(brickId);
 
-      // Step 4: Mint the NFT
-      console.log('🎨 Step 4: Minting NFT...');
-      const mintResult = await this.nftMintingService.mintMetaBrickNFT(mintData, wallet);
-
-      if (mintResult.success) {
+      if (mintSignature) {
         console.log('🎉 NFT minting successful!', {
-          signature: mintResult.signature,
-          mintAddress: mintResult.mintAddress,
+          signature: mintSignature,
           brickId: brickId,
           brickType: metadata.hiddenMetadata.type,
           rarity: metadata.hiddenMetadata.rarity
         });
 
-        // Step 5: Verify ownership
-        console.log('🔍 Step 5: Verifying NFT ownership...');
-        const ownershipVerified = await this.nftMintingService.verifyNFTOwnership(
-          wallet.publicKey.toString(),
-          mintResult.mintAddress!
-        );
-
-        console.log('✅ Ownership verification result:', ownershipVerified);
-
         return {
           success: true,
           metadata: metadata,
-          mintResult: mintResult,
-          ownershipVerified: ownershipVerified
+          mintSignature: mintSignature,
+          brickId: brickId
         };
 
       } else {
-        throw new Error(mintResult.error || 'Unknown minting error');
+        throw new Error('NFT minting failed - no signature returned');
       }
 
     } catch (error) {

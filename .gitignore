@@ -63,3 +63,24 @@ dist/
 
 # Deployment files
 deployment/
+
+# Rust build artifacts
+target/
+**/target/
+*.so
+*.dylib
+*.dll
+*.exe
+
+# Solana contract build artifacts
+**/Cargo.lock
+**/target/
+**/*.so
+**/*.dylib
+**/*.dll
+**/*.exe
+
+# Large binary files
+*.zip
+*.tar.gz
+*.rar

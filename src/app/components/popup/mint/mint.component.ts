@@ -5,7 +5,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Connection, PublicKey, Transaction, SystemProgram } from '@solana/web3.js';
 import { WalletService } from '../../../services/wallet.service';
 import { BrickEventsService } from '../../../services/brick-events.service';
-import { NFTMintingService, NFTMintData } from '../../../services/nft-minting.service';
+import { NftMintingService } from '../../../services/nft-minting.service';
 import { BrickPerkService } from '../../../services/brick-perk.service';
 
 const SOLANA_RPC = 'https://api.devnet.solana.com';
@@ -24,7 +24,7 @@ export class MintComponent implements OnInit {
   constructor(
     private walletService: WalletService,
     private brickEvents: BrickEventsService,
-    private nftMintingService: NFTMintingService,
+    private nftMintingService: NftMintingService,
     private brickPerkService: BrickPerkService
   ) { }
 
@@ -39,7 +39,7 @@ export class MintComponent implements OnInit {
       alert('No brick data available.');
       return;
     }
-
+    
     // Get wallet provider (Phantom)
     const provider = (window as any).solana;
     if (!provider || !provider.isPhantom) {
@@ -100,23 +100,23 @@ export class MintComponent implements OnInit {
           attempts++;
           console.log(`Payment attempt ${attempts}/${maxAttempts}...`);
           
-          const transaction = new Transaction().add(
-            SystemProgram.transfer({
-              fromPubkey,
-              toPubkey,
-              lamports: Math.round(SOL_AMOUNT * 1e9),
-            })
-          );
+        const transaction = new Transaction().add(
+          SystemProgram.transfer({
+            fromPubkey,
+            toPubkey,
+            lamports: Math.round(SOL_AMOUNT * 1e9),
+          })
+        );
           
-          transaction.feePayer = fromPubkey;
+        transaction.feePayer = fromPubkey;
           
           // Get fresh blockhash right before sending to avoid expiration
           const { blockhash } = await connection.getLatestBlockhash('finalized');
-          transaction.recentBlockhash = blockhash;
+        transaction.recentBlockhash = blockhash;
           
-          const signed = await provider.signTransaction(transaction);
+        const signed = await provider.signTransaction(transaction);
           signature = await connection.sendRawTransaction(signed.serialize());
-          await connection.confirmTransaction(signature, 'confirmed');
+        await connection.confirmTransaction(signature, 'confirmed');
           
           paymentSuccess = true;
           console.log('✅ Payment successful! Transaction:', signature);
@@ -137,23 +137,36 @@ export class MintComponent implements OnInit {
 
       // Step 4: Mint NFT using our new service
       console.log('🎨 Step 4: Minting NFT...');
-      const mintData: NFTMintData = {
-        walletAddress: provider.publicKey.toString(),
-        brickId: brickId,
-        brickName: metadata.name
-      };
+      
+      // First test the connection
+      console.log('🔍 Testing Solana connection...');
+      const connectionTest = await this.nftMintingService.testConnection();
+      if (!connectionTest) {
+        throw new Error('Solana connection test failed. Please check your wallet connection and try again.');
+      }
+      console.log('✅ Connection test passed, proceeding with minting...');
+      
+      // Test basic transaction signing with Phantom
+      console.log('🔍 Testing basic transaction signing with Phantom...');
+      const basicTransactionTest = await this.nftMintingService.testBasicTransaction();
+      if (!basicTransactionTest) {
+        throw new Error('Basic transaction signing test failed. Phantom wallet may have issues with transaction signing.');
+      }
+      console.log('✅ Basic transaction signing test passed, proceeding with minting...');
+      
+      // Use the new simplified interface - just pass the brick number
+      const mintSignature = await this.nftMintingService.mintMetaBrickNFT(brickId);
 
-      const mintResult = await this.nftMintingService.mintMetaBrickNFT(mintData, provider);
-
-      if (mintResult.success) {
-        console.log('🎉 NFT minting successful!', mintResult);
+      if (mintSignature) {
+        console.log('🎉 NFT minting successful!', mintSignature);
         
         // Show simplified success message
         const successMessage = `🎉 MetaBrick NFT Minted Successfully!\n\n` +
           `🧱 ${metadata.name}\n` +
           `⭐ ${metadata.hiddenMetadata.type} (${metadata.hiddenMetadata.rarity})\n` +
           `🎁 ${metadata.perks.length} perks included\n\n` +
-          `Your NFT is now in your wallet!`;
+          `Your NFT is now in your wallet!\n\n` +
+          `Transaction: ${mintSignature}`;
 
         alert(successMessage);
         
@@ -164,9 +177,8 @@ export class MintComponent implements OnInit {
         if (this.modalRef) {
           this.modalRef.hide();
         }
-
       } else {
-        throw new Error(mintResult.error || 'Unknown minting error');
+        throw new Error('NFT minting failed - no signature returned');
       }
 
     } catch (error: any) {
