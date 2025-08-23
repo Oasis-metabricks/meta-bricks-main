@@ -1,15 +1,6 @@
-// src/app/services/wallet.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-
-// Define the OASISResult interface locally since oasis.service doesn't exist
-export interface OASISResult<T> {
-  result: T | null;
-  isError: boolean;
-  message: string;
-  exception?: any;
-}
+import { OASISWalletResult } from './oasis-wallet.service';
 
 export interface WalletTransactionRequest {
   fromAvatarId: string;
@@ -55,60 +46,17 @@ export interface CreateWalletRequest {
 @Injectable({
   providedIn: 'root'
 })
-export class WalletService {
+export class WalletCoreService {
   
   private baseUrl = 'http://api.oasisplatform.world'; // OASIS API endpoint
   private apiKey = ''; // Add your OASIS API key here
-
+  
   constructor(private http: HttpClient) {}
-
-  // Add the missing methods that existing components expect
-  async checkWalletConnected(): Promise<string | null> {
+  
+  // Wallet Management
+  async createWallet(walletData: CreateWalletRequest): Promise<OASISWalletResult<ProviderWallet>> {
     try {
-      // For demo purposes, return a mock wallet address
-      // In a real implementation, this would check actual wallet connection
-      return '0x1234567890abcdef1234567890abcdef12345678';
-    } catch (error: any) {
-      console.error('Failed to check wallet connection:', error);
-      return null;
-    }
-  }
-
-  async connectWallet(): Promise<any> {
-    try {
-      // For demo purposes, return a mock wallet connection
-      // In a real implementation, this would handle actual wallet connection
-      const mockWallet = {
-        publicKey: '0x1234567890abcdef1234567890abcdef12345678',
-        isConnected: true,
-        address: '0x1234567890abcdef1234567890abcdef12345678'
-      };
-      
-      console.log('Mock wallet connected:', mockWallet);
-      return mockWallet;
-    } catch (error: any) {
-      console.error('Failed to connect wallet:', error);
-      throw error;
-    }
-  }
-
-  getMintedBricks(): Observable<{ minted: string[] }> {
-    // For demo purposes, return mock minted bricks
-    // In a real implementation, this would fetch from backend
-    const mockMintedBricks = {
-      minted: [
-        '0x1234567890abcdef1234567890abcdef12345678',
-        '0xabcdef1234567890abcdef1234567890abcdef12'
-      ]
-    };
-    
-    return of(mockMintedBricks);
-  }
-
-  // Keep existing methods
-  async createWallet(walletData: CreateWalletRequest): Promise<OASISResult<ProviderWallet>> {
-    try {
-      const response = await this.http.post<OASISResult<ProviderWallet>>(
+      const response = await this.http.post<OASISWalletResult<ProviderWallet>>(
         `${this.baseUrl}/api/wallet/create`,
         walletData,
         this.getHeaders()
@@ -120,14 +68,14 @@ export class WalletService {
     }
   }
   
-  async loadWalletsByAvatarId(avatarId: string, providerType?: string): Promise<OASISResult<ProviderWallet[]>> {
+  async loadWalletsByAvatarId(avatarId: string, providerType?: string): Promise<OASISWalletResult<ProviderWallet[]>> {
     try {
       let url = `${this.baseUrl}/api/wallet/load_wallets_by_id/${avatarId}`;
       if (providerType) {
         url += `?providerType=${providerType}`;
       }
       
-      const response = await this.http.get<OASISResult<ProviderWallet[]>>(
+      const response = await this.http.get<OASISWalletResult<ProviderWallet[]>>(
         url,
         this.getHeaders()
       ).toPromise();
@@ -138,14 +86,14 @@ export class WalletService {
     }
   }
   
-  async loadWalletsByUsername(username: string, providerType?: string): Promise<OASISResult<ProviderWallet[]>> {
+  async loadWalletsByUsername(username: string, providerType?: string): Promise<OASISWalletResult<ProviderWallet[]>> {
     try {
       let url = `${this.baseUrl}/api/wallet/load_wallets_by_username/${username}`;
       if (providerType) {
         url += `?providerType=${providerType}`;
       }
       
-      const response = await this.http.get<OASISResult<ProviderWallet[]>>(
+      const response = await this.http.get<OASISWalletResult<ProviderWallet[]>>(
         url,
         this.getHeaders()
       ).toPromise();
@@ -156,32 +104,32 @@ export class WalletService {
     }
   }
   
-  async loadWalletsByEmail(email: string, providerType?: string): Promise<OASISResult<ProviderWallet[]>> {
+  async loadWalletsByEmail(email: string, providerType?: string): Promise<OASISWalletResult<ProviderWallet[]>> {
     try {
       let url = `${this.baseUrl}/api/wallet/load_wallets_by_email/${email}`;
       if (providerType) {
         url += `?providerType=${providerType}`;
       }
       
-      const response = await this.http.get<OASISResult<ProviderWallet[]>>(
+      const response = await this.http.get<OASISWalletResult<ProviderWallet[]>>(
         url,
         this.getHeaders()
       ).toPromise();
       
       return response || { result: [], isError: false, message: 'No wallets found' };
     } catch (error: any) {
-      return { result: [], isError: false, message: 'No wallets found' };
+      return { result: [], isError: true, message: error?.message || 'Failed to load wallets' };
     }
   }
   
-  async saveWalletsByAvatarId(avatarId: string, wallets: ProviderWallet[], providerType?: string): Promise<OASISResult<boolean>> {
+  async saveWalletsByAvatarId(avatarId: string, wallets: ProviderWallet[], providerType?: string): Promise<OASISWalletResult<boolean>> {
     try {
       let url = `${this.baseUrl}/api/wallet/save_wallets_by_id/${avatarId}`;
       if (providerType) {
         url += `?providerType=${providerType}`;
       }
       
-      const response = await this.http.post<OASISResult<boolean>>(
+      const response = await this.http.post<OASISWalletResult<boolean>>(
         url,
         wallets,
         this.getHeaders()
@@ -194,9 +142,9 @@ export class WalletService {
   }
   
   // Transaction Management
-  async sendToken(transaction: WalletTransactionRequest): Promise<OASISResult<any>> {
+  async sendToken(transaction: WalletTransactionRequest): Promise<OASISWalletResult<any>> {
     try {
-      const response = await this.http.post<OASISResult<any>>(
+      const response = await this.http.post<OASISWalletResult<any>>(
         `${this.baseUrl}/api/wallet/send_token`,
         transaction,
         this.getHeaders()
@@ -208,23 +156,23 @@ export class WalletService {
     }
   }
   
-  async getTransactionHistory(walletId: string): Promise<OASISResult<WalletTransaction[]>> {
+  async getTransactionHistory(walletId: string): Promise<OASISWalletResult<WalletTransaction[]>> {
     try {
-      const response = await this.http.get<OASISResult<WalletTransaction[]>>(
+      const response = await this.http.get<OASISWalletResult<WalletTransaction[]>>(
         `${this.baseUrl}/api/wallet/transactions/${walletId}`,
         this.getHeaders()
       ).toPromise();
       
       return response || { result: [], isError: false, message: 'No transactions found' };
     } catch (error: any) {
-      return { result: [], isError: false, message: 'No transactions found' };
+      return { result: [], isError: true, message: error?.message || 'Failed to get transactions' };
     }
   }
   
   // Wallet Operations
-  async getDefaultWallet(avatarId: string, providerType: string): Promise<OASISResult<ProviderWallet>> {
+  async getDefaultWallet(avatarId: string, providerType: string): Promise<OASISWalletResult<ProviderWallet>> {
     try {
-      const response = await this.http.get<OASISResult<ProviderWallet>>(
+      const response = await this.http.get<OASISWalletResult<ProviderWallet>>(
         `${this.baseUrl}/api/wallet/default_wallet/${avatarId}?providerType=${providerType}`,
         this.getHeaders()
       ).toPromise();
@@ -235,9 +183,9 @@ export class WalletService {
     }
   }
   
-  async setDefaultWallet(avatarId: string, walletId: string, providerType: string): Promise<OASISResult<boolean>> {
+  async setDefaultWallet(avatarId: string, walletId: string, providerType: string): Promise<OASISWalletResult<boolean>> {
     try {
-      const response = await this.http.post<OASISResult<boolean>>(
+      const response = await this.http.post<OASISWalletResult<boolean>>(
         `${this.baseUrl}/api/wallet/set_default_wallet`,
         { avatarId, walletId, providerType },
         this.getHeaders()
@@ -249,9 +197,9 @@ export class WalletService {
     }
   }
   
-  async getWalletByPublicKey(publicKey: string, providerType: string): Promise<OASISResult<ProviderWallet>> {
+  async getWalletByPublicKey(publicKey: string, providerType: string): Promise<OASISWalletResult<ProviderWallet>> {
     try {
-      const response = await this.http.get<OASISResult<ProviderWallet>>(
+      const response = await this.http.get<OASISWalletResult<ProviderWallet>>(
         `${this.baseUrl}/api/wallet/wallet_by_public_key/${publicKey}?providerType=${providerType}`,
         this.getHeaders()
       ).toPromise();
@@ -263,9 +211,9 @@ export class WalletService {
   }
   
   // Balance Management
-  async getWalletBalance(walletId: string, providerType: string): Promise<OASISResult<number>> {
+  async getWalletBalance(walletId: string, providerType: string): Promise<OASISWalletResult<number>> {
     try {
-      const response = await this.http.get<OASISResult<number>>(
+      const response = await this.http.get<OASISWalletResult<number>>(
         `${this.baseUrl}/api/wallet/balance/${walletId}?providerType=${providerType}`,
         this.getHeaders()
       ).toPromise();
@@ -276,9 +224,9 @@ export class WalletService {
     }
   }
   
-  async refreshWalletBalance(walletId: string, providerType: string): Promise<OASISResult<number>> {
+  async refreshWalletBalance(walletId: string, providerType: string): Promise<OASISWalletResult<number>> {
     try {
-      const response = await this.http.post<OASISResult<number>>(
+      const response = await this.http.post<OASISWalletResult<number>>(
         `${this.baseUrl}/api/wallet/refresh_balance`,
         { walletId, providerType },
         this.getHeaders()
@@ -291,9 +239,9 @@ export class WalletService {
   }
   
   // Utility Methods
-  async clearCache(): Promise<OASISResult<boolean>> {
+  async clearCache(): Promise<OASISWalletResult<boolean>> {
     try {
-      const response = await this.http.post<OASISResult<boolean>>(
+      const response = await this.http.post<OASISWalletResult<boolean>>(
         `${this.baseUrl}/api/wallet/clear_cache`,
         {},
         this.getHeaders()

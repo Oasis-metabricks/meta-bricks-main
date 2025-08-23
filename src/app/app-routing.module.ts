@@ -7,6 +7,9 @@ const routes: Routes = [
   },
   {
     path: 'home', loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+  },
+  {
+    path: 'wallet', loadChildren: () => import('./components/metabricks-wallet/metabricks-wallet.module').then(m => m.MetabricksWalletModule)
   }
 ];
 

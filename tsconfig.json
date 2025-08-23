@@ -28,7 +28,9 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "enableStandalone": false,
+    "enableResourceInlining": false
   },
   "exclude": [
     "src/app/components/candy-machine-v3-ui"

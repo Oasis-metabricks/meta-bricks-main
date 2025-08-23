@@ -1,0 +1,194 @@
+<!-- MetaBricks Wallet Component -->
+<div class="wallet-container">
+  
+  <!-- Wallet Header -->
+  <div class="wallet-header">
+    <h2>🔐 MetaBricks Wallet</h2>
+    <p class="wallet-subtitle">Powered by OASIS - Cross-Chain Digital Asset Management</p>
+    <div class="wallet-notice">
+      <p>💡 <strong>Demo Mode:</strong> Currently showing simulated wallets. Real wallet generation will be available when the OASIS Keys API is fully implemented.</p>
+    </div>
+  </div>
+
+  <!-- Wallet Actions -->
+  <div class="wallet-actions">
+    <button 
+      class="btn btn-primary generate-btn" 
+      (click)="generateCrossChainWallets()" 
+      [disabled]="isLoading">
+      <span *ngIf="!isLoading">🚀 Generate Cross-Chain Wallets</span>
+      <span *ngIf="isLoading">⏳ Generating...</span>
+    </button>
+    
+    <button 
+      class="btn btn-secondary import-btn" 
+      (click)="showImportModal = true">
+      📥 Import Phantom Wallet
+    </button>
+    
+    <button 
+      class="btn btn-info refresh-btn" 
+      (click)="refreshBalances()" 
+      [disabled]="isLoading">
+      💰 Refresh Balances
+    </button>
+  </div>
+
+  <!-- Wallet List -->
+  <div class="wallet-list" *ngIf="wallets.length > 0">
+    <h3>Your Wallets</h3>
+    
+    <div class="wallet-grid">
+      <div 
+        *ngFor="let wallet of wallets" 
+        class="wallet-card"
+        [class.selected]="selectedWallet?.walletId === wallet.walletId"
+        (click)="selectWallet(wallet)">
+        
+        <!-- Provider Icon and Type -->
+        <div class="wallet-header-info">
+          <span class="provider-icon">{{ getProviderIcon(wallet.providerType) }}</span>
+          <span class="provider-name">{{ getProviderDisplayName(wallet.providerType) }}</span>
+          <span class="default-badge" *ngIf="wallet.isDefaultWallet">⭐ Default</span>
+        </div>
+        
+        <!-- Wallet Address -->
+        <div class="wallet-address">
+          <span class="address-label">Address:</span>
+          <span class="address-value" [title]="wallet.walletAddress">
+            {{ getShortAddress(wallet.walletAddress) }}
+          </span>
+          <button 
+            class="copy-btn" 
+            (click)="copyAddress(wallet.walletAddress)"
+            title="Copy address">
+            📋
+          </button>
+        </div>
+        
+        <!-- Balance -->
+        <div class="wallet-balance">
+          <span class="balance-label">Balance:</span>
+          <span class="balance-value">{{ getFormattedBalance(wallet.balance) }}</span>
+        </div>
+        
+        <!-- Wallet ID -->
+        <div class="wallet-id">
+          <span class="id-label">ID:</span>
+          <span class="id-value">{{ wallet.walletId.substring(0, 8) }}...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No Wallets State -->
+  <div class="no-wallets" *ngIf="wallets.length === 0 && !isLoading">
+    <div class="no-wallets-content">
+      <h3>🔑 No Wallets Yet</h3>
+      <p>Generate cross-chain wallets to start managing your digital assets with OASIS.</p>
+              <button 
+        class="btn btn-primary" 
+        (click)="generateCrossChainWallets()">
+        🚀 Generate Your First Wallets
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="loading-spinner"></div>
+    <p>Loading wallets...</p>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" *ngIf="showImportModal" (click)="showImportModal = false">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>📥 Import Phantom Wallet</h3>
+        <button class="close-btn" (click)="showImportModal = false">×</button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="privateKey">Private Key</label>
+          <input 
+            type="password" 
+            id="privateKey" 
+            [(ngModel)]="importData.privateKey"
+            placeholder="Enter your Phantom wallet private key"
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="walletName">Wallet Name (Optional)</label>
+          <input 
+            type="text" 
+            id="walletName" 
+            [(ngModel)]="importData.walletName"
+            placeholder="My Phantom Wallet"
+            class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Description (Optional)</label>
+          <textarea 
+            id="description" 
+            [(ngModel)]="importData.description"
+            placeholder="Imported from Phantom wallet"
+            class="form-control"></textarea>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button 
+          class="btn btn-secondary" 
+          (click)="showImportModal = false">
+          Cancel
+        </button>
+        <button 
+          class="btn btn-primary" 
+          (click)="importWallet()"
+          [disabled]="!importData.privateKey || isLoading">
+          <span *ngIf="!isLoading">Import Wallet</span>
+          <span *ngIf="isLoading">Importing...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Wallet Details -->
+  <div class="selected-wallet-details" *ngIf="selectedWallet">
+    <h3>Selected Wallet Details</h3>
+    
+    <div class="wallet-detail-card">
+      <div class="detail-row">
+        <span class="detail-label">Provider:</span>
+        <span class="detail-value">
+          {{ getProviderIcon(selectedWallet.providerType) }} 
+          {{ getProviderDisplayName(selectedWallet.providerType) }}
+        </span>
+      </div>
+      
+      <div class="detail-row">
+        <span class="detail-label">Address:</span>
+        <span class="detail-value">{{ selectedWallet.walletAddress }}</span>
+      </div>
+      
+      <div class="detail-row">
+        <span class="detail-label">Public Key:</span>
+        <span class="detail-value">{{ selectedWallet.publicKey }}</span>
+      </div>
+      
+      <div class="detail-row">
+        <span class="detail-label">Balance:</span>
+        <span class="detail-value">{{ getFormattedBalance(selectedWallet.balance) }}</span>
+      </div>
+      
+      <div class="detail-row">
+        <span class="detail-label">Default:</span>
+        <span class="detail-value">{{ selectedWallet.isDefaultWallet ? 'Yes' : 'No' }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>

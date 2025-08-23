@@ -1,37 +1,153 @@
 declare let window: any;
-import { Component, Renderer2, NgZone, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { WalletService } from '../../../services/wallet.service';
+import { AvatarService } from '../../../services/avatar.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   destroyedCount: number = 0;
-  leftCount: number = 432;
   walletAddress: string | null = null;
   isHamburgerOpen: boolean = false;
+  
+  // Avatar Modal State
+  showAvatarModal: boolean = false;
+  showWalletModal: boolean = false;
+  activeAvatarTab: 'login' | 'create' = 'login';
+  isAvatarLoading: boolean = false;
+  isAvatarConnected: boolean = false;
+  avatarSuccessMessage: string = '';
+  avatarErrorMessage: string = '';
+  
+  // Form Data
+  loginData = {
+    username: '',
+    password: ''
+  };
+  
+  avatarData = {
+    username: '',
+    email: '',
+    password: '',
+    avatarType: '',
+    createdOASISType: '',
+    acceptTerms: false
+  };
 
   constructor(
+    private router: Router,
     private walletService: WalletService,
-    private renderer: Renderer2,
-    private ngZone: NgZone,
+    private avatarService: AvatarService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
-    // Check for mobile wallet return flow first
-    const mobileWalletInfo = this.walletService.handleMobileWalletReturn();
-    if (mobileWalletInfo) {
-      this.walletAddress = mobileWalletInfo;
+    this.checkWalletConnection();
+    this.checkAvatarConnection();
+  }
+
+  ngOnDestroy() {
+    this.destroyedCount++;
+  }
+
+  // Avatar Modal Methods
+  openAvatarModal() {
+    this.showAvatarModal = true;
+    this.resetAvatarForms();
+  }
+
+  closeAvatarModal() {
+    this.showAvatarModal = false;
+    this.resetAvatarForms();
+    this.clearAvatarMessages();
+  }
+
+  openWalletModal() {
+    this.showWalletModal = true;
+  }
+
+  closeWalletModal() {
+    this.showWalletModal = false;
+  }
+
+  setAvatarTab(tab: 'login' | 'create') {
+    this.activeAvatarTab = tab;
+    this.clearAvatarMessages();
+  }
+
+  resetAvatarForms() {
+    this.loginData = { username: '', password: '' };
+    this.avatarData = { username: '', email: '', password: '', avatarType: '', createdOASISType: '', acceptTerms: false };
+  }
+
+  clearAvatarMessages() {
+    this.avatarSuccessMessage = '';
+    this.avatarErrorMessage = '';
+  }
+
+  async loginAvatar() {
+    if (!this.loginData.username || !this.loginData.password) {
+      this.avatarErrorMessage = 'Please fill in all fields';
+      return;
+    }
+
+    this.isAvatarLoading = true;
+    this.clearAvatarMessages();
+
+    try {
+      const result = await this.avatarService.loginAvatar(this.loginData.username, this.loginData.password);
+      this.avatarSuccessMessage = 'Avatar connected successfully!';
+      this.isAvatarConnected = true;
+      this.closeAvatarModal();
       this.cdr.detectChanges();
+    } catch (error: any) {
+      this.avatarErrorMessage = error.message || 'Login failed. Please try again.';
+    } finally {
+      this.isAvatarLoading = false;
+    }
+  }
+
+  async createAvatar() {
+    if (!this.avatarData.username || !this.avatarData.email || !this.avatarData.password || !this.avatarData.avatarType || !this.avatarData.createdOASISType) {
+      this.avatarErrorMessage = 'Please fill in all required fields';
+      return;
+    }
+
+    if (!this.avatarData.acceptTerms) {
+      this.avatarErrorMessage = 'Please accept the terms and conditions';
       return;
     }
     
-    // Check for existing wallet connection
+    this.isAvatarLoading = true;
+    this.clearAvatarMessages();
+
+    try {
+      const result = await this.avatarService.createAvatar(this.avatarData);
+      this.avatarSuccessMessage = 'Avatar created successfully!';
+      this.isAvatarConnected = true;
+      this.closeAvatarModal();
+      this.cdr.detectChanges();
+    } catch (error: any) {
+      this.avatarErrorMessage = error.message || 'Avatar creation failed. Please try again.';
+    } finally {
+      this.isAvatarLoading = false;
+    }
+  }
+
+  checkAvatarConnection() {
+    this.avatarService.getAvatarState().subscribe(avatar => {
+      this.isAvatarConnected = !!avatar;
+      this.cdr.detectChanges();
+    });
+  }
+
+  // Wallet Methods
+  checkWalletConnection() {
     this.walletService.checkWalletConnected().then((publicKey: any) => {
       if (publicKey) {
         this.walletAddress = publicKey.toString();
@@ -40,40 +156,27 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  connectWallet() {
-    this.ngZone.run(() => {
-      this.walletService.connectWallet().then(res => {
-        // Check if this is a mobile connection
-        if (res && res.mobile) {
-          console.log('Mobile wallet connection initiated');
-          alert('Opening Phantom app... Please return to this page after connecting your wallet.');
-          return;
-        }
-        
-        // Desktop flow - use the response directly from wallet service
-        console.log('Wallet connection response:', res);
-        
-        if (res && res.publicKey) {
-          this.walletAddress = res.publicKey.toString();
-          this.cdr.detectChanges();
-          console.log('Wallet connected successfully:', this.walletAddress);
-        } else {
-          this.walletAddress = null;
-          console.error('No public key in response:', res);
-          alert('Failed to connect to Phantom. Please try again.');
-        }
-      }).catch(err => {
-        console.error('Error connecting wallet', err);
-        alert('Error connecting to Phantom wallet.');
-      });
-    });
+  async connectWallet() {
+    try {
+      const publicKey = await this.walletService.connectWallet();
+      if (publicKey) {
+        this.walletAddress = publicKey.toString();
+        this.cdr.detectChanges();
+      }
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+    }
   }
 
-  toggleHamburgerMenu(): void {
+  toggleHamburger() {
     this.isHamburgerOpen = !this.isHamburgerOpen;
   }
 
-  goHome(): void {
+  goHome() {
     this.router.navigate(['/']);
+  }
+
+  toggleHamburgerMenu() {
+    this.toggleHamburger();
   }
 }

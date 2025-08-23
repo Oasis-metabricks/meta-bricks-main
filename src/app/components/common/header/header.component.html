@@ -18,17 +18,25 @@
             <div class="desktop-nav-buttons">
                 <button class="nav-btn" routerLink="gallery">Gallery</button>
                 <button class="nav-btn" routerLink="hall-of-fame">Hall of Fame</button>
+                <button class="nav-btn" routerLink="/wallet">Metabricks Wallet</button>
             </div>
             
-            <button class="desktop-connect-wallet-btn" (click)="connectWallet()">
-                {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
+            <button class="desktop-connect-avatar-btn" (click)="openAvatarModal()">
+                {{ isAvatarConnected ? 'Avatar Connected' : 'Connect Avatar' }}
+            </button>
+            
+            <button class="desktop-connect-wallet-btn" routerLink="/wallet">
+                {{ walletAddress ? 'MetaBricks Wallet' : 'MetaBricks Wallet' }}
             </button>
         </div>
         
         <!-- Mobile Connect Wallet Button Only -->
         <div class="mobile-connect-wallet-section">
-            <button class="mobile-connect-wallet-btn" (click)="connectWallet()">
-                {{ walletAddress ? 'Wallet Connected' : 'Connect Wallet' }}
+            <button class="mobile-connect-avatar-btn" (click)="openAvatarModal()">
+                {{ isAvatarConnected ? 'Avatar' : 'Avatar' }}
+            </button>
+            <button class="mobile-connect-wallet-btn" routerLink="/wallet">
+                {{ walletAddress ? 'Wallet' : 'Wallet' }}
             </button>
         </div>
     </div>
@@ -45,5 +53,160 @@
     <div class="hamburger-content" [class.open]="isHamburgerOpen">
         <button class="hamburger-nav-btn" routerLink="gallery">Gallery</button>
         <button class="hamburger-nav-btn" routerLink="hall-of-fame">Hall of Fame</button>
+        <button class="hamburger-nav-btn" routerLink="/wallet">Metabricks Wallet</button>
+    </div>
+</div>
+
+<!-- Avatar Modal -->
+<div class="avatar-modal" [class.show]="showAvatarModal">
+    <div class="avatar-modal-content">
+        <div class="avatar-modal-header">
+            <h3>🔐 Connect Your OASIS Avatar</h3>
+            <button class="avatar-modal-close" (click)="closeAvatarModal()">&times;</button>
+        </div>
+        
+        <div class="avatar-modal-tabs">
+            <button 
+                class="avatar-tab-btn" 
+                [class.active]="activeAvatarTab === 'login'" 
+                (click)="setAvatarTab('login')">
+                🔑 Login
+            </button>
+            <button 
+                class="avatar-tab-btn" 
+                [class.active]="activeAvatarTab === 'create'" 
+                (click)="setAvatarTab('create')">
+                ✨ Create Avatar
+            </button>
+        </div>
+        
+        <!-- Login Tab -->
+        <div *ngIf="activeAvatarTab === 'login'" class="avatar-tab-content">
+            <form (ngSubmit)="loginAvatar()" class="avatar-form">
+                <div class="form-group">
+                    <input 
+                        [(ngModel)]="loginData.username" 
+                        name="username"
+                        placeholder="Username or Email" 
+                        required 
+                        class="avatar-input">
+                </div>
+                <div class="form-group">
+                    <input 
+                        [(ngModel)]="loginData.password" 
+                        name="password"
+                        type="password" 
+                        placeholder="Password" 
+                        required 
+                        class="avatar-input">
+                </div>
+                <button type="submit" class="avatar-submit-btn">
+                    🔑 Login to OASIS
+                </button>
+            </form>
+        </div>
+        
+        <!-- Create Avatar Tab -->
+        <div *ngIf="activeAvatarTab === 'create'" class="avatar-tab-content">
+            <form (ngSubmit)="createAvatar()" class="avatar-form">
+                <div class="form-group">
+                    <input 
+                        [(ngModel)]="avatarData.username" 
+                        name="username"
+                        placeholder="Username" 
+                        required 
+                        class="avatar-input">
+                </div>
+                <div class="form-group">
+                    <input 
+                        [(ngModel)]="avatarData.email" 
+                        name="email"
+                        type="email" 
+                        placeholder="Email" 
+                        required 
+                        class="avatar-input">
+                </div>
+                <div class="form-group">
+                    <input 
+                        [(ngModel)]="avatarData.password" 
+                        name="password"
+                        type="password" 
+                        placeholder="Password (min 6 chars)" 
+                        required 
+                        class="avatar-input">
+                </div>
+                
+                <div class="form-group">
+                    <select 
+                        [(ngModel)]="avatarData.avatarType" 
+                        name="avatarType"
+                        required 
+                        class="avatar-input">
+                        <option value="">Select Avatar Type</option>
+                        <option value="User">User</option>
+                        <option value="Wizard">Wizard</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <select 
+                        [(ngModel)]="avatarData.createdOASISType" 
+                        name="createdOASISType"
+                        required 
+                        class="avatar-input">
+                        <option value="">Select OASIS Type</option>
+                        <option value="OASISAPIREST">OASIS API REST</option>
+                        <option value="OASISWeb">OASIS Web</option>
+                        <option value="OASISUnity">OASIS Unity</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="avatar-checkbox-label">
+                        <input 
+                            [(ngModel)]="avatarData.acceptTerms" 
+                            name="acceptTerms"
+                            type="checkbox" 
+                            required 
+                            class="avatar-checkbox">
+                        <span>I accept the OASIS terms and conditions</span>
+                    </label>
+                </div>
+                
+                <button type="submit" class="avatar-submit-btn">
+                    ✨ Create My OASIS Avatar
+                </button>
+            </form>
+        </div>
+        
+        <!-- Loading State -->
+        <div *ngIf="isAvatarLoading" class="avatar-loading">
+            <div class="avatar-spinner"></div>
+            <p>Connecting to OASIS...</p>
+        </div>
+        
+        <!-- Success Message -->
+        <div *ngIf="avatarSuccessMessage" class="avatar-success">
+            <p>✅ {{ avatarSuccessMessage }}</p>
+        </div>
+        
+        <!-- Error Message -->
+        <div *ngIf="avatarErrorMessage" class="avatar-error">
+            <p>❌ {{ avatarErrorMessage }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- Wallet Modal -->
+<div class="wallet-modal" [class.show]="showWalletModal">
+    <div class="wallet-modal-content">
+        <div class="wallet-modal-header">
+            <h3>🔐 MetaBricks Wallet</h3>
+            <button class="wallet-modal-close" (click)="closeWalletModal()">&times;</button>
+        </div>
+        
+        <div class="wallet-modal-body">
+            <app-wallet></app-wallet>
+        </div>
     </div>
 </div>

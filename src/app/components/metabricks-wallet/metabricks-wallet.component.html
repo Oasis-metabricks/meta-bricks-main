@@ -1,0 +1,188 @@
+<div class="main-container">
+  <!-- Header Section -->
+  <header>
+    <div class="logo">
+      <img src="assets/metabricks-logo.png" alt="Metabricks" />
+      <span>Metabricks Wallet</span>
+    </div>
+    <div class="header-actions">
+      <div *ngIf="isConnected" class="avatar-info">
+        <span class="avatar-name">{{ currentAvatar?.username || 'User' }}</span>
+        <span class="avatar-karma">Karma: {{ currentAvatar?.karma || 0 }}</span>
+      </div>
+      <button *ngIf="!isConnected" class="button" (click)="connectWallet()">
+        Connect Wallet
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="middle-container">
+    <div class="middle-content">
+      
+      <!-- Section Header -->
+      <div class="section-header">
+        <h2>Metabricks Wallet</h2>
+        <div class="right-section">
+          <p>Total Balance: <span>{{ balance | currency:'USD':'symbol':'1.2-2' }}</span></p>
+          <div class="buttons-list">
+            <button class="button" (click)="toggleCreateWallet()">Create Wallet</button>
+            <button class="button" (click)="toggleImportWallet()">Import Wallet</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section List - Main Wallet Interface -->
+      <div class="section-list">
+        
+        <!-- Overview Tab -->
+        <div class="single-section" [class.active]="activeTab === 'overview'">
+          <h2>Overview</h2>
+          <div class="have-top-border">
+            <h3>Wallet Summary</h3>
+            <p>Connected Wallets: {{ wallets.length }}</p>
+            <p>NFTs Owned: {{ nfts.length }}</p>
+            <p>Total Value: {{ balance | currency:'USD':'symbol':'1.2-2' }}</p>
+          </div>
+        </div>
+
+        <!-- Wallets Tab -->
+        <div class="single-section" [class.active]="activeTab === 'wallets'">
+          <h2>Wallets</h2>
+          <div class="have-top-border">
+            <div *ngFor="let wallet of wallets" class="wallet-item">
+              <h3>{{ wallet.providerType }}</h3>
+              <p>Type: {{ wallet.providerType }}</p>
+              <p>Balance: {{ wallet.balance | currency:'USD':'symbol':'1.2-2' }}</p>
+              <p>Address: {{ wallet.walletAddress | slice:0:8 }}...{{ wallet.walletAddress | slice:-6 }}</p>
+            </div>
+            <div *ngIf="wallets.length === 0" class="empty-state">
+              <p>No wallets found. Create or import a wallet to get started.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- NFTs Tab -->
+        <div class="single-section" [class.active]="activeTab === 'nfts'">
+          <h2>NFTs</h2>
+          <div class="have-top-border">
+            <div *ngFor="let nft of nfts" class="nft-item">
+              <h3>{{ nft.name }}</h3>
+              <p>Collection: {{ nft.collection }}</p>
+              <p>Token ID: {{ nft.tokenId }}</p>
+              <p>Blockchain: {{ nft.blockchain }}</p>
+            </div>
+            <div *ngIf="nfts.length === 0" class="empty-state">
+              <p>No NFTs found. Your Metabricks NFTs will appear here.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Tab -->
+        <div class="single-section" [class.active]="activeTab === 'transactions'">
+          <h2>Transactions</h2>
+          <div class="have-top-border">
+            <h3>Recent Activity</h3>
+            <p>Transaction history will appear here</p>
+          </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="single-section" [class.active]="activeTab === 'settings'">
+          <h2>Settings</h2>
+          <div class="have-top-border">
+            <h3>Wallet Preferences</h3>
+            <p>Security settings and preferences</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="wallet-tabs">
+        <button 
+          *ngFor="let tab of ['overview', 'wallets', 'nfts', 'transactions', 'settings']"
+          class="tab-button"
+          [class.active]="activeTab === tab"
+          (click)="setActiveTab(tab)">
+          {{ tab | titlecase }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Wallet Modal -->
+  <div *ngIf="showCreateWallet" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Create New Wallet</h3>
+        <button class="close-button" (click)="toggleCreateWallet()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createWallet()" #createWalletForm="ngForm">
+          <div class="form-group">
+            <label for="walletName">Wallet Name</label>
+            <input 
+              type="text" 
+              id="walletName" 
+              name="walletName"
+              [(ngModel)]="newWalletData.name"
+              required
+              class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="walletType">Wallet Type</label>
+            <select 
+              id="walletType" 
+              name="walletType"
+              [(ngModel)]="newWalletData.type"
+              required
+              class="form-select">
+              <option value="ethereum">Ethereum</option>
+              <option value="solana">Solana</option>
+              <option value="polygon">Polygon</option>
+              <option value="arbitrum">Arbitrum</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="walletPassword">Password</label>
+            <input 
+              type="password" 
+              id="walletPassword" 
+              name="walletPassword"
+              [(ngModel)]="newWalletData.password"
+              required
+              class="form-input">
+          </div>
+          <div class="form-actions">
+            <button type="button" class="button secondary" (click)="toggleCreateWallet()">Cancel</button>
+            <button type="submit" class="button" [disabled]="isLoading">
+              {{ isLoading ? 'Creating...' : 'Create Wallet' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Wallet Modal -->
+  <div *ngIf="showImportWallet" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Import Existing Wallet</h3>
+        <button class="close-button" (click)="toggleImportWallet()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Import wallet functionality coming soon...</p>
+        <div class="form-actions">
+          <button class="button" (click)="toggleImportWallet()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+</div>
